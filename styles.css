@@ -2,7 +2,7 @@ body {
   margin: 0;
   background-color: rgb(17, 17, 17);
   color: white;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: monospace;
   scroll-behavior: smooth;
 }
 
