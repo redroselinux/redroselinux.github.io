@@ -105,38 +105,18 @@
 
 	<br><br><br>
 
-<section class="contact" id="contact">
-  <h2>Contact</h2>
-  <p>Author - mostypc123 (Juraj Kollár, Slovakia)</p>
-  <ul>
-    <li>GitHub: <a href="https://github.com/mostypc123" target="_blank">@mostypc123</a></li>
-    <li>Discord: @mostypc_jurajkollar</li>
-	  <li>Mail: mostypc7@gmail.com</li>
-    <li>Redrose Github Org: <a href="https://github.com/redroselinux" target="_blank">@redroselinux</a></li>
-  </ul>
-</section>
+	<section class="contact" id="contact">
+	  <h2>Contact</h2>
+	  <p>Author - mostypc123 (Juraj Kollár, Slovakia)</p>
+	  <ul>
+	    <li>GitHub: <a href="https://github.com/mostypc123" target="_blank">@mostypc123</a></li>
+	    <li>Discord: @mostypc_jurajkollar</li>
+		  <li>Mail: mostypc7@gmail.com</li>
+	    <li>Redrose Github Org: <a href="https://github.com/redroselinux" target="_blank">@redroselinux</a></li>
+	  </ul>
+	</section>
 
-    <script>
-      // dynamic text
-      const contentArray = ["FOSS only", "Reproducible", "Rolling and stable", "Riced", "User-friendly", "Dev-friendly"];
-      let index = 0;
-      setInterval(() => {
-        index = (index + 1) % contentArray.length;
-        document.getElementById("switcher").textContent = contentArray[index];
-      }, 1000);
-
-      // navbar visibility
-      const navbar = document.getElementById("navbar");
-      const hero = document.querySelector(".hero");
-
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) navbar.classList.remove("visible");
-          else navbar.classList.add("visible");
-        });
-      }, { threshold: 0.3 });
-
-      observer.observe(hero);
-    </script>
+	<!-- typewriter !-->
+	<script src = "/index.js"/>
   </body>
 </html>
