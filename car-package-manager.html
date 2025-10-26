@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Car Package Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="navbar" id="navbar">
+  <p>Car Docs</p>
+</header>
+
+<section class="software-section">
+  <h1>Car</h1>
+  <p>Package manager for Redrose Linux.</p>
+
+  <h2>Roadmap</h2>
+  <ul>
+    <li>[x] Basic functionality</li>
+    <li>[x] Basic versioning</li>
+    <li>[ ] More advanced versioning</li>
+    <li>[x] Mirrors</li>
+    <li>[ ] Website with all packages</li>
+    <li>[ ] .car tarballs for offline install</li>
+  </ul>
+
+  <h2>Syntax</h2>
+  <pre><code>car get|delete|update|search|updatelist|init
+
+car get &lt;package&gt; [--noconfirm]
+car delete &lt;package&gt;
+car update &lt;package&gt;
+car search &lt;package&gt;
+car updatelist
+car init
+</code></pre>
+
+  <h2>Creating Hooks</h2>
+  <ol>
+    <li>Add file to <code>.config/car/post-inst-hooks</code></li>
+    <li>Create the file</li>
+  </ol>
+
+  <h2>Making Repos</h2>
+  <pre><code>:base:
+install_script = https://raw.githubusercontent.com/crust-project/car-binary-storage/main/
+packagelist = https://raw.githubusercontent.com/crust-project/car/main/existing-packages.txt
+:end:
+</code></pre>
+
+  <h2>Creating Packages</h2>
+  <p>Create a file named <code>install_script</code>.</p>
+  <pre><code>version = "0.0.1"
+
+def beforeinst():
+    print("Runs before installation")
+
+def deps():
+    print(":: No dependencies required")
+
+def build():
+    print(":: No build required")
+
+def install():
+    pass
+
+def postinst():
+    pass
+</code></pre>
+
+  <h2>Submitting Packages</h2>
+  <ol>
+    <li>Fork <code>car-binary-storage</code></li>
+    <li>Create a package directory with <code>install_script</code></li>
+    <li>Follow naming rules (-bin, -git, -stable)</li>
+    <li>Submit a pull request</li>
+  </ol>
+
+  <p><a href="index.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+</section>
+
+</body>
+</html>
