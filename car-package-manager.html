@@ -43,12 +43,33 @@ car init
   </ol>
 
   <h2>Making Repos</h2>
+  <p>Open the file at /home/user/.config/mirrors.car. You will see things similar to this:</p>
   <pre><code>:base:
 install_script = https://raw.githubusercontent.com/crust-project/car-binary-storage/main/
 packagelist = https://raw.githubusercontent.com/crust-project/car/main/existing-packages.txt
 :end:
 </code></pre>
-
+<p>Copy and paste one of the repos. To set up a repo, you need:
+  <ul>
+    <li>Package list</li>
+    <li>Actual packages</li>
+  </ul>
+<p>The package list is easy to set up. Make a file that will have the packages,
+  divided by a newline. Example: </p>
+  <pre><code>package1
+package2
+package3
+</code></pre>
+  <p>Edit the packagelist value in mirrors.car.</p>
+  <p>This can be basically any URL that CURL supports. Which means you can use file://, yes.</p>
+  
+  <p>The install scripts are gonna be a directory, where are other directories named by the packages that own them.</p>
+  <code><pre>my-repo>
+    my-package>
+        install_script <- See #Creating Packages
+        index.html <- Docs for the package
+    </pre></code>
+    </p>Again, this can be file://, so yes, you can make a fully local repo.
   <h2>Creating Packages</h2>
   <p>Create a file named <code>install_script</code>.</p>
   <pre><code>version = "0.0.1"
