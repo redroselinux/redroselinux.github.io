@@ -29,6 +29,28 @@ pre, code {
 </head>
 <body>
 
+<!-- Sidebar -->
+<nav
+  id="sidebar"
+  style="position:fixed; left:2em; top:50px; width:220px; height:calc(100vh - 100px);
+         background-color:rgb(24,24,24); padding:1.25em; box-sizing:border-box;
+         border-right:1px solid rgb(60,60,60); overflow:auto;"
+>
+  <h2 style="color:rgb(255,60,60); margin:0 0 0.6em 0; font-size:1.05em;">Contents</h2>
+  <a href="#getting-started" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Getting Started</a>
+  <a href="#basic-commands" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Basic Commands</a>
+  <a href="#reinstall" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Reinstalling Packages</a>
+  <a href="#autocorrection" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Autocorrection</a>
+  <a href="#hooks" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Hooks</a>
+  <a href="#repositories" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Repositories</a>
+  <a href="#creating-packages" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Creating Packages</a>
+  <a href="#submitting" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Submitting Packages</a>
+  <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+  <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute to Docs</button>
+</nav>
+
+<!-- Main -->
+<main style="margin-left:260px;">
 <header class="navbar" id="navbar">
   <img src="assets/redrose-logo-transparent.png" height="40" width="40" alt="Redrose Linux logo">
   <p>
@@ -39,7 +61,7 @@ pre, code {
   </p>
 </header>
 
-<section>
+<section id="getting-started">
   <h1>Car Package Manager</h1>
   <p>Car is the official package manager for Redrose Linux.</p>
 
@@ -54,7 +76,9 @@ pre, code {
 
   <p>Installed packages are tracked at:</p>
   <pre>directory<code>~/.config/repro.car</code></pre>
+</section>
 
+<section id="basic-commands">
   <h2>Basic Commands</h2>
   <pre>command<code>car get &lt;package&gt; [--noconfirm]
 car delete &lt;package&gt;
@@ -72,20 +96,26 @@ car init
     <li><code>car updatelist</code> — Updates your local package list.</li>
     <li><code>car init</code> — Initializes configuration directories and hooks.</li>
   </ul>
+</section>
 
+<section id="reinstall">
   <h2>Reinstalling Packages</h2>
   <p>Car reinstalls only when updates are available.  
   To force reinstall a package manually, run:</p>
   <pre>command<code>sudo car delete &lt;package&gt;
 sudo car get &lt;package&gt;
 </code></pre>
+</section>
 
+<section id="autocorrection">
   <h2>Autocorrection</h2>
   <p>Car can correct typos in package names. If a requested name doesn’t match exactly, Car installs the closest known match.</p>
   <pre>command with output<code>redrose% car get firfox
 Note: Using firefox instead of firfox
 </code></pre>
+</section>
 
+<section id="hooks">
   <h2>Hooks</h2>
   <p>Hooks allow automatic actions after installation.  
   To create one:</p>
@@ -93,7 +123,9 @@ Note: Using firefox instead of firfox
     <li>Add a file to <code>~/.config/car/post-inst-hooks</code>.</li>
     <li>Define a <code>run(package)</code> function inside that file.</li>
   </ol>
+</section>
 
+<section id="repositories">
   <h2>Repositories</h2>
   <p>Repository definitions are stored in <code>~/.config/mirrors.car</code>.</p>
   <pre>code<code>:base:
@@ -122,7 +154,9 @@ package3
     install_script
     index.html
 </code></pre>
+</section>
 
+<section id="creating-packages">
   <h2>Creating Packages</h2>
   <p>Each package must have an <code>install_script</code>. Example:</p>
   <pre>code<code>version = "0.0.1"
@@ -150,7 +184,9 @@ def postinst():
     <li><code>install()</code> — Installs package files.</li>
     <li><code>postinst()</code> — Executes after installation finishes.</li>
   </ul>
+</section>
 
+<section id="submitting">
   <h2>Submitting Packages</h2>
   <ol>
     <li>Fork <code>car-binary-storage</code> on GitHub.</li>
@@ -158,14 +194,13 @@ def postinst():
     <li>Follow naming conventions (<code>-bin</code>, <code>-git</code>, <code>-stable</code>).</li>
     <li>Submit a pull request.</li>
   </ol>
- <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+  <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
 </section>
 
 <center>
   <p>Our documentation is open source. You can help by contributing.</p>
   <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute</button>
 </center>
-
+</main>
 </body>
 </html>
-

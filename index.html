@@ -142,19 +142,6 @@
         index = (index + 1) % contentArray.length;
         document.getElementById("switcher").textContent = contentArray[index];
       }, 1000);
-
-      // navbar visibility
-      const navbar = document.getElementById("navbar");
-      const hero = document.querySelector(".hero");
-
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) navbar.classList.remove("visible");
-          else navbar.classList.add("visible");
-        });
-      }, { threshold: 0.3 });
-
-      observer.observe(hero);
     </script>
   </body>
 </html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Installation Guide - Redrose Linux</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      margin: 2em;
+      padding: 50px;
+    }
+
+    section {
+      margin-top: 4em;
+      padding: 1em 0;
+    }
+
+    pre, code {
+      background-color: rgb(24, 24, 24);
+      color: rgb(230, 230, 230);
+      font-family: monospace;
+      border: 1px solid rgb(60, 60, 60);
+      padding: 0.8em;
+      display: block;
+      overflow-x: auto;
+      white-space: pre;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar: inline styles only so no external CSS is modified -->
+  <nav
+    id="sidebar"
+    style="position:fixed; left:2em; top:50px; width:220px; height:calc(100vh - 100px);
+           background-color:rgb(24,24,24); padding:1.25em; box-sizing:border-box;
+           border-right:1px solid rgb(60,60,60); overflow:auto;"
+  >
+    <h2 style="color:rgb(255,60,60); margin:0 0 0.6em 0; font-size:1.05em;">Contents</h2>
+    <a href="#installer" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Using the Installer</a>
+    <a href="#download" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">ㅤDownloading the Installer</a>
+    <a href="#flash" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">ㅤFlashing the Disk</a>
+    <a href="#boot" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">ㅤBooting the Installer</a>
+    <a href="#install" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">ㅤInstalling</a>
+    <a href="#restart" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">ㅤRestarting Installation</a>
+    <a href="#troubleshoot" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Troubleshooting</a>
+    <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+    <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute to Docs</button>
+  </nav>
+
+  <!-- Main: shift right with inline margin so your existing CSS remains untouched -->
+  <main style="margin-left:260px;">
+    <header class="navbar" id="navbar">
+      <img src="assets/redrose-logo-transparent.png" height="40" width="40" alt="Redrose Linux logo">
+      <p>
+        Redrose Linux 
+        <a href="./docs.html" style="color:rgb(255,60,60)">Docs</a>
+        <a href="https://github.com/redroselinux/" style="color:rgb(255,60,60)">GitHub</a>
+        <a href=".waitlist" style="color:rgb(255,60,60)">Waitlist</a>
+      </p>
+    </header>
+
+    <section id="installer">
+      <h1>Installation Guide</h1>
+
+      <h2 id="download">Using the installer</h2>
+      <h3>Downloading the Installer</h3>
+      <p>
+        To install Redrose Linux, the first step is to 
+        <a href="https://github.com/redroselinux/redroselinux/releases" style="color:rgb(255,60,60)">download</a> 
+        the disk image. The image size is approximately 1.5-2 GB, smaller than most standard distributions.
+      </p>
+
+      <strong>
+        IT IS STRONGLY ADVISED TO FIRST CHECK THE INTEGRITY OF THE DISK IMAGE. THE OFFICIAL SHA256 CHECKSUM IS ON THE GITHUB RELEASE PAGE, OR THIS, LESS UPDATED CHECKSUM:
+      </strong>
+      <code>98dc028d17556a1c8e630e7fdf141bea9c7e75b14b9414646aa13a35c56d0c17</code>
+
+      <p><strong>To verify the ISO:</strong></p>
+      <p>The next steps assume your disk image is at /Downloads/redroselinux.iso.</p>
+
+      <ul>
+        <li>
+          <strong>On Linux:</strong> open a terminal, navigate to your Downloads folder, and run:
+          <br><code>sha256sum redroselinux.iso</code>
+          <br>Compare the output with the checksum above. If they match, the download is correct.
+        </li>
+
+        <li>
+          <strong>On Windows:</strong> open PowerShell, navigate to your Downloads folder, and run:
+          <br><code>Get-FileHash .\redroselinux.iso -Algorithm SHA256</code>
+          <br>Compare the resulting hash with the checksum above. Matching values mean the ISO is intact.
+        </li>
+      </ul>
+
+      <strong>
+        IF THE VALUES DO NOT MATCH, TRY THE GITHUB RELEASES CHECKSUM. IF THAT FAILS TOO, YOUR ISO IS NOT OFFICIAL OR CORRUPTED.
+      </strong>
+      <p>How to fix that? Simply re-download from official sources.</p>
+
+      <h3 id="flash">Flashing the disk </h3>
+      <p>
+        After downloading, flash the disk image onto a USB drive or another removable drive. Connect the drive before proceeding.
+      </p>
+
+      <p>
+        <strong>On Windows:</strong> download 
+        <a href="https://rufus.ie/en/#download" style="color:rgb(255,60,60)">Rufus</a> 
+        and follow the instructions. Select the downloaded disk image and your removable drive, then click START.
+      </p>
+
+      <p>
+        <strong>On Linux:</strong> run:
+        <code>sudo dd if=~/Downloads/redroselinux.iso of=/dev/sdX bs=4M status=progress && sync</code>
+        <strong>Replace /dev/sdX with your drive's device name. Replace ~/Downloads/redroselinux.iso with your ISO directory.</strong>
+      </p>
+
+      <p><strong>THIS WILL PERMANENTLY DELETE ALL CONTENT FROM THE DRIVE.</strong></p>
+
+      <h3 id="boot">Booting the Installer</h3>
+      <p>
+        Reboot and press one of the following keys to access BIOS/UEFI:
+        <kbd>Esc</kbd>, <kbd>Enter</kbd>, <kbd>F9</kbd>, <kbd>Del</kbd>.
+        <br>Select your removable drive as the boot device.
+      </p>
+
+      <p>
+        Examples:
+        <br>
+        <img src="assets/bios.png" width="400" alt="BIOS screen">
+        <img src="assets/uefi.png" width="400" alt="UEFI screen">
+      </p>
+
+      <h3 id="install">Installing</h3>
+      <p>
+        Once booted, the installer starts automatically. Wait for the setup interface.
+      </p>
+
+      <p>Follow the on-screen instructions. Quick reference:</p>
+      <ul>
+        <li><kbd>Username</kbd> - your personal user account name</li>
+        <li><kbd>Root</kbd> - the system administrator account</li>
+        <li><kbd>Console keymap</kbd> - keyboard layout (e.g., us, uk, sk)</li>
+        <li><kbd>Timezone</kbd> - Region/City format (e.g., Europe/Bratislava)</li>
+        <li><kbd>Locale</kbd> - system language (e.g., en_US.UTF-8)</li>
+      </ul>
+
+      <p>After these steps, the installer finishes automatically.</p>
+
+      <h3 id="restart">Restarting installation</h3>
+      <p>To restart installation, press Ctrl + C. To start again, type:</p>
+      <code>./redroselinuxinstaller</code>
+      <p>If that does not work, run:</p>
+      <code>chmod +x ./redroselinuxinstaller</code>
+    </section>
+
+    <section id="troubleshoot">
+      <h2>Troubleshooting</h2>
+
+      <h3>Removable drive not detected</h3>
+      <p>Try a different drive or port, then reboot and repeat.</p>
+
+      <h3>Problems with booting the drive</h3>
+      <p>Turn off Secure Boot. Redrose Linux currently does not support it.</p>
+
+      <h3>Unable to access BIOS/UEFI</h3>
+      <p>Check your device manual for the correct key. If you see no menu, BIOS/UEFI may be locked with a password. Consult a repair shop or your organization.</p>
+
+      <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+    </section>
+
+    <center>
+      <p>Our documentation is open source. You can help by contributing.</p>
+      <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute</button>
+    </center>
+  </main>
+</body>
+</html>

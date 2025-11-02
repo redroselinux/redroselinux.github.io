@@ -16,11 +16,18 @@ body {
   justify-content: center;
   align-items: center;
   color: white;
-  opacity: 0;
+  opacity: 1;
   transition: opacity 0.3s ease;
   z-index: 10;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(3px);
+  border-bottom: 1px;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-color: rgb(95, 95, 95);
+  border-style: solid;
 }
+
 
 iframe {
     border-radius: 25px;
