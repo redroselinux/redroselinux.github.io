@@ -74,6 +74,9 @@ pre, code {
   <pre>command<code>car updatelist</code></pre>
   <p>Running this every few days ensures you always have the latest package information.</p>
 
+  <p>Regularly update packages:</p>
+  <code>sudo car update</code>
+
   <p>Installed packages are tracked at:</p>
   <pre>directory<code>~/.config/repro.car</code></pre>
 </section>
@@ -82,7 +85,7 @@ pre, code {
   <h2>Basic Commands</h2>
   <pre>command<code>car get &lt;package&gt; [--noconfirm]
 car delete &lt;package&gt;
-car update &lt;package&gt;
+car update
 car search &lt;package&gt;
 car updatelist
 car init
@@ -91,7 +94,7 @@ car init
   <ul>
     <li><code>car get &lt;package&gt;</code> — Installs a package.</li>
     <li><code>car delete &lt;package&gt;</code> — Removes a package.</li>
-    <li><code>car update &lt;package&gt;</code> — <i>Currently not supported</i></li>
+    <li><code>car update</code> — update system.</li>
     <li><code>car search &lt;package&gt;</code> — Searches mirrors for available packages.</li>
     <li><code>car updatelist</code> — Updates your local package list.</li>
     <li><code>car init</code> — Initializes configuration directories and hooks.</li>
@@ -138,12 +141,19 @@ packagelist = https://raw.githubusercontent.com/crust-project/car/main/existing-
   <ul>
     <li>A package list (text file, one package per line).</li>
     <li>A directory containing package installation scripts.</li>
+    <li>A packagelist with latest versions.</li>
   </ul>
 
   <p>Example package list:</p>
   <pre>text<code>package1
 package2
 package3
+</code></pre>
+
+  <p>Example package list with versions:</p>
+  <pre>text<code>package1=0.0.1
+package2=0.0.2
+package3=0.0.3
 </code></pre>
 
   <p>Car supports URLs and local paths (using <code>file://</code>), so you can create local repositories.</p>
@@ -153,6 +163,11 @@ package3
   my-package/
     install_script
     index.html
+  my-other-package/
+    install_script
+    index.html
+  versions.txt
+  packages.txt
 </code></pre>
 </section>
 
@@ -165,9 +180,11 @@ def beforeinst():
     print("Runs before installation")
 
 def deps():
+    # not required
     print(":: No dependencies required")
 
 def build():
+    # not required
     print(":: No build required")
 
 def install():
