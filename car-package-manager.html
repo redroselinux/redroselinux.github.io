@@ -202,6 +202,28 @@ def postinst():
     <li><code>install()</code> — Installs package files.</li>
     <li><code>postinst()</code> — Executes after installation finishes.</li>
   </ul>
+
+<ul>
+  <li>There is variables other than version</li>
+  <li>description = ""</li>
+  <li>trusted = "" (only the owner of the repo is allowed to set this.)</li>
+  <ul>
+    <li>True - EU FOSS</li>
+    <li>Maybe - OSS</li>
+    <li>False - propiertary</li>
+  </ul>
+  <li>outdated = ""</li>
+  <ul>
+    <li>True - outdated</li>
+    <li>False - up to date</li>
+  </ul>
+  <li>car_deps and pacman_deps, arrays. INCLUDE THEM ONLY IF THERE ARE ANY.</li>
+  <li>maintainer:</li>
+  <code>maintainer = [
+    {"Name": "Example Maintainer", "email": "example@example.com", "nick": "example"}
+]</code>
+  <li>DoNotWriteVersion = True, do not include if not. (doesnt write into repro.car)</li>
+</ul>
 </section>
 
 <section id="submitting">
