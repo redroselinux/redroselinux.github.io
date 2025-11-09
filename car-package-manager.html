@@ -174,18 +174,18 @@ package3=0.0.3
 
 <section id="creating-packages">
   <h2>Creating Packages</h2>
-  <p>Each package must have an <code>install_script</code>. Example:</p>
-  <pre>code<code>version = "0.0.1"
+  <p>Every package must include an <code>install_script</code>. Example:</p>
+  <pre><code>version = "0.0.1"
 
 def beforeinst():
     print("Runs before installation")
 
 def deps():
-    # not required
+    # Optional - use the car_deps array, do not include if none, use this to install anything extra
     print(":: No dependencies required")
 
 def build():
-    # not required
+    # Optional
     print(":: No build required")
 
 def install():
@@ -195,36 +195,46 @@ def postinst():
     pass
 </code></pre>
 
+  <p>Function overview:</p>
   <ul>
-    <li><code>beforeinst()</code> — Runs before installation.</li>
-    <li><code>deps()</code> — Handles dependencies.</li>
-    <li><code>build()</code> — Builds the package if needed.</li>
-    <li><code>install()</code> — Installs package files.</li>
-    <li><code>postinst()</code> — Executes after installation finishes.</li>
+    <li>– <code>beforeinst()</code> – Runs before installation begins.</li>
+    <li>– <code>deps()</code> – Handles package dependencies (optional).</li>
+    <li>– <code>build()</code> – Builds the package if necessary (optional).</li>
+    <li>– <code>install()</code> – Installs the package files.</li>
+    <li>– <code>postinst()</code> – Executes after installation completes.</li>
   </ul>
 
-<ul>
-  <li>There is variables other than version</li>
-  <li>description = ""</li>
-  <li>trusted = "" (only the owner of the repo is allowed to set this.)</li>
+  <p>Additional package variables:</p>
   <ul>
-    <li>True - EU FOSS</li>
-    <li>Maybe - OSS</li>
-    <li>False - propiertary</li>
-  </ul>
-  <li>outdated = ""</li>
-  <ul>
-    <li>True - outdated</li>
-    <li>False - up to date</li>
-  </ul>
-  <li>car_deps and pacman_deps, arrays. INCLUDE THEM ONLY IF THERE ARE ANY.</li>
-  <li>maintainer:</li>
-  <code>maintainer = [
+    <li>– <code>version</code> – Package version (required).</li>
+    <li>– <code>description</code> – Short description of the package.</li>
+    <li>– <code>trusted</code> – Trust level (can only be set by the repository owner):
+      <ul>
+        <li>– <code>True</code> – EU FOSS</li>
+        <li>– <code>Maybe</code> – OSS</li>
+        <li>– <code>False</code> – Proprietary</li>
+      </ul>
+    </li>
+    <li>– <code>outdated</code> – Indicates if the package is outdated:
+      <ul>
+        <li>– <code>True</code> – Outdated</li>
+        <li>– <code>False</code> – Up to date</li>
+      </ul>
+    </li>
+    <li>– <code>car_deps</code> and <code>pacman_deps</code> – Arrays of dependencies. Include only if applicable.
+      <ul>
+        <li>– <code>car_deps</code> are installed automatically.</li>
+      </ul>
+    </li>
+    <li>– <code>maintainer</code> – List of maintainers. Example:
+      <pre><code>maintainer = [
     {"Name": "Example Maintainer", "email": "example@example.com", "nick": "example"}
-]</code>
-  <li>DoNotWriteVersion = True, do not include if not. (doesnt write into repro.car)</li>
-</ul>
+]</code></pre>
+    </li>
+    <li>– <code>DoNotWriteVersion = True</code> – Optional; if set, the version will not be written to <code>repro.car</code>.</li>
+  </ul>
 </section>
+
 
 <section id="submitting">
   <h2>Submitting Packages</h2>
