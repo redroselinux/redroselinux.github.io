@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+body {
+  margin: 2em;
+  padding: 50px
+}
+
+section {
+  margin-top: 4em;
+  padding: 1em 0;
+}
+
+pre, code {
+  background-color: rgb(24, 24, 24);
+  color: rgb(230, 230, 230);
+  font-family: monospace;
+  border: 1px solid rgb(60, 60, 60);
+  padding: 0.8em;
+  display: block;
+  overflow-x: auto;
+  white-space: pre;
+}
+  </style>
+  <meta charset="UTF-8">
+  <title>Welcome Screen — Redrose Linux</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav
+  id="sidebar"
+  style="position:fixed; left:2em; top:50px; width:220px; height:calc(100vh - 100px);
+         background-color:rgb(24,24,24); padding:1.25em; box-sizing:border-box;
+         border-right:1px solid rgb(60,60,60); overflow:auto;"
+>
+  <h2 style="color:rgb(255,60,60); margin:0 0 0.6em 0; font-size:1.05em;">Contents</h2>
+
+  <a href="#overview" style="display:block; color:rgb(230,230,230); margin:0.35em 0; text-decoration:none;">Overview</a>
+  <a href="#promotions" style="display:block; color:rgb(230,230,230); margin:0.35em 0; text-decoration:none;">Project Promotion</a>
+
+  <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+  <button onclick="window.open('https://github.com/redroselinux/redroselinux-welcome', '_blank')">Contribute</button>
+</nav>
+
+<!-- Main -->
+<main style="margin-left:260px;">
+
+<header class="navbar" id="navbar">
+  <img src="assets/redrose-logo-transparent.png" height="40" width="40" alt="Redrose Linux logo">
+  <p>
+    Redrose Linux 
+    <a href="./docs.html" style="color:rgb(255,60,60)">Docs</a>
+    <a href="https://github.com/redroselinux/" style="color:rgb(255,60,60)">GitHub</a>
+    <a href="#waitlist" style="color:rgb(255,60,60)">Waitlist</a>
+  </p>
+</header>
+
+<section id="overview">
+  <h1>Redrose Welcome Screen</h1>
+  <p>The Welcome Screen is the first application users see when booting into Redrose Linux.</p>
+
+  <p>Its purpose:</p>
+  <ul>
+    <li>Display the welcome UI</li>
+    <li>Link users to documentation and resources</li>
+    <li>Provide a simple first-boot environment</li>
+    <li>Credit contributors and their projects</li>
+  </ul>
+</section>
+
+<section id="promotions">
+  <h2>Project Promotion</h2>
+  <p>To have your project promoted in Redrose Linux's welcome screen, contribute and send it to:</p>
+
+  <code>mostypc7@gmail.com</code>
+</section>
+
+<center>
+  <p>Our docs are open source. Contribute if you want to expand the welcome system documentation.</p>
+  <button onclick="window.open('https://github.com/redroselinux/redroselinux-welcome', '_blank')">Contribute</button>
+</center>
+
+</main>
+</body>
+</html>
+
