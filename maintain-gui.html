@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+body {
+  margin: 2em;
+  padding: 50px
+}
+
+section {
+  margin-top: 4em;
+  padding: 1em 0;
+}
+
+pre, code {
+  background-color: rgb(24, 24, 24);
+  color: rgb(230, 230, 230);
+  font-family: monospace;
+  border: 1px solid rgb(60, 60, 60);
+  padding: 0.8em;
+  display: block;
+  overflow-x: auto;
+  white-space: pre;
+}
+  </style>
+  <meta charset="UTF-8">
+  <title>Car Package Manager — Redrose Linux</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav
+  id="sidebar"
+  style="position:fixed; left:2em; top:50px; width:220px; height:calc(100vh - 100px);
+         background-color:rgb(24,24,24); padding:1.25em; box-sizing:border-box;
+         border-right:1px solid rgb(60,60,60); overflow:auto;"
+>
+  <h2 style="color:rgb(255,60,60); margin:0 0 0.6em 0; font-size:1.05em;">Contents</h2>
+  <a href="#getting-started" style="display:block; color:rgb(230,230,230); text-decoration:none; margin:0.35em 0;">Usage</a>
+  <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
+  <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute to Docs</button>
+</nav>
+
+<!-- Main -->
+<main style="margin-left:260px;">
+<header class="navbar" id="navbar">
+  <img src="assets/redrose-logo-transparent.png" height="40" width="40" alt="Redrose Linux logo">
+  <p>
+    Redrose Linux 
+    <a href="./docs.html" style="color:rgb(255,60,60)">Docs</a>
+    <a href="https://github.com/redroselinux/" style="color:rgb(255,60,60)">GitHub</a>
+    <a href=".waitlist" style="color:rgb(255,60,60)">Waitlist</a>
+  </p>
+</header>
+
+<strong>NOTE THAT THIS IS MADE WITH AI.</strong>
+  
+<section id="getting-started">
+  <h2>Usage</h2>
+  First, clone the repo:
+  <code>git clone https://github.com/redroselinux/maintain
+  cd maintain</code>
+  Now run the install script:*
+  <code>chmod +x ./install.sh
+  ./install.sh</code>
+  If you want desktop shortcuts, answer Y to this:
+  <code>Make desktop shortcuts for the commands? [y/N]</code>
+  <small>The script requires sudo*</small>
+  Now run: 
+  <code>redrose-maintain</code>
+  You will see a simple UI. This UI fetches the latest packages and lets you rebuild them if you want to.
+  <iframe src="https://drive.google.com/file/d/1vyPTIXFIs7iRq9IdSm1JRgZccZLolnQV/preview" width="640" height="480" allow="autoplay"></iframe>
+</section>
+
+<center>
+  <p>Our documentation is open source. You can help by contributing.</p>
+  <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute</button>
+</center>
+</main>
+</body>
+</html>
