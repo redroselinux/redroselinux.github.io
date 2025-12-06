@@ -125,6 +125,7 @@ iframe {
   align-items: center;
   height: 100vh;
   text-align: center;
+  background: linear-gradient(to bottom, red, black);
 }
 
 .headline {
