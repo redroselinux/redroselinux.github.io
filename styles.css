@@ -52,7 +52,7 @@ iframe {
 .software-section {
   padding: 80px 20px;
   text-align: center;
-  background-color: rgb(24, 24, 24);
+  background-color: rgb(17, 17, 17);
 }
 
 .software-list {
@@ -144,7 +144,7 @@ iframe {
 }
 
 .gradient-top {
-  background: linear-gradient(to bottom, red, rgb(24, 24, 24), rgb(24, 24, 24), rgb(24, 24, 24));
+  background: linear-gradient(to bottom, red, rgb(17, 17, 17), rgb(17, 17, 17), rgb(17, 17, 17), rgb(17, 17, 17), rgb(17, 17, 17));
 }
 
 .headline {
@@ -171,7 +171,7 @@ iframe {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: rgb(24, 24, 24);
+  background-color: rgb(17, 17, 17);
   text-align: center;
 }
 
