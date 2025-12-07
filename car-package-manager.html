@@ -67,18 +67,18 @@ pre, code {
 
   <h2>Getting Started</h2>
   <p>Initialize Car before using it:</p>
-  <pre>command<code>car init</code></pre>
+  <pre>command<code>sudo car init</code></pre>
   <p>This creates Car’s configuration directory and required files.</p>
 
   <p>Update the package list regularly to keep your system synced with mirrors:</p>
-  <pre>command<code>car updatelist</code></pre>
+  <pre>command<code>sudo car updatelist</code></pre>
   <p>Running this every few days ensures you always have the latest package information.</p>
 
   <p>Regularly update packages:</p>
   <code>sudo car update</code>
 
   <p>Installed packages are tracked at:</p>
-  <pre>directory<code>~/.config/repro.car</code></pre>
+  <pre>directory<code>~/etc/repro.car</code></pre>
 </section>
 
 <section id="basic-commands">
@@ -131,7 +131,7 @@ Note: Using firefox instead of firfox
 
 <section id="repositories">
   <h2>Repositories</h2>
-  <p>Repository definitions are stored in <code>~/.config/mirrors.car</code>.</p>
+  <p>Repository definitions are stored in <code>~/etc/mirrors.car</code>.</p>
   <pre>code<code>:base:
 install_script = https://raw.githubusercontent.com/crust-project/car-binary-storage/main/
 packagelist = https://raw.githubusercontent.com/crust-project/car/main/existing-packages.txt
@@ -197,7 +197,7 @@ def postinst():
 
   <p>Function overview:</p>
   <ul>
-    <li>– <code>beforeinst()</code> – Runs before installation begins.</li>
+    <li>– <code>beforeinst()</code> – Runs before installation begins. State the license here.</li>
     <li>– <code>deps()</code> – Handles package dependencies (optional).</li>
     <li>– <code>build()</code> – Builds the package if necessary (optional).</li>
     <li>– <code>install()</code> – Installs the package files.</li>
@@ -234,7 +234,7 @@ def postinst():
     <li>– <code>DoNotWriteVersion = True</code> – Optional; if set, the version will not be written to <code>repro.car</code>.</li>
   </ul>
   <h3>Local Packages</h3>
-  They work basically the same. Make a folder, create <strong>install_script.py</strong> (not install_script) and zip it. Use the zip format.
+  Making a local package is very simple, almost identical to making a standard one. Make a folder, create <strong>install_script.py</strong> (not install_script) and zip it. Use the zip format.
   For example the file can be called package.car.zip. .car is required.
 </section>
 
@@ -247,6 +247,7 @@ def postinst():
     <li>Follow naming conventions (<code>-bin</code>, <code>-git</code>, <code>-stable</code>).</li>
     <li>Submit a pull request.</li>
   </ol>
+  If we do not accept your package, you can make a local package first and use that before we accept it.
   <p><a href="docs.html" style="color:rgb(255,60,60)">← Back to Docs Home</a></p>
 </section>
 
