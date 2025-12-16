@@ -1,29 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Redrose Docs</title>
   <link rel="stylesheet" href="styles.css">
+
+  <!-- only layout-critical rules here -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-    <header class="navbar" id="navbar">
-      <img src="assets/redrose-logo-transparent.png" height="40" width="40"><p>Redrose Linux Docs <a href="./index.html" style="color:rgb(255,60,60)">Home</a> <a href="https://github.com/redroselinux/" style="color:rgb(255,60,60)">Github</a> <a href=".waitlist" style="color:rgb(255,60,60)">Waitlist</a></p>
-    </header>
-<section class="software-section">
-  <h1>Documentation</h1>
-  <ul class="software-list">
-    <li><a href="install.html" style="color:rgb(255,60,60)">Installation Guide</a> <strong></strong></li>
-    <li><a href="welcome.html" style="color:rgb(255,60,60)">Welcome Screen</a></li>
-    <li><a href="car-package-manager.html" style="color:rgb(255,60,60)">Car Package Manager</a></li>
-    <li><a href="i4.html" style="color:rgb(255,60,60)">i4 Desktop Enviroment</a> <strong>(NOT READY FOR USE YET)</strong></li>
-    <hr>
-    <li>For Developers</li>
-    <li><a href="maintain-gui.html" style="color:rgb(255,60,60)">redrose-maintain</a></li>
-  </ul>
-        <p><a href="index.html" style="color:rgb(255,60,60)">← Back to Home</a></p>
-    Our documentation is open source. You can help by contributing!
-  <button onclick="window.open('https://github.com/redroselinux/redroselinux.github.io', '_blank')">Contribute</button>
-</section>
+  <header class="navbar" id="navbar">
+    <img src="assets/redrose-logo-transparent.png" height="40" width="40">
+    <p>
+      Redrose Linux Docs
+      <a href="./index.html">Home</a>
+      <a href="https://github.com/redroselinux/">Github</a>
+      <a href=".waitlist">Waitlist</a>
+    </p>
+  </header>
 
+  <iframe src="https://redroselinux.miraheze.org/"></iframe>
 </body>
 </html>
