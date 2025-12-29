@@ -1,153 +1,469 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link href="./styles.css" rel="stylesheet">
-  </head>
-  <body>
-	  <div class="cursor-glow"></div>
-    <header class="navbar" id="navbar">
-      <img src="assets/redrose-logo-transparent.png" height="40" width="40"><p>Redrose Linux <a href="./docs.html" style="color:rgb(255,60,60)">Docs</a> <a href="https://github.com/redroselinux/" style="color:rgb(255,60,60)">Github</a> <a href="#waitlist" style="color:rgb(255,60,60)">Waitlist</a></p>
-    </header>
-	  
-    <div class="hero gradient-top">
-      <div class="headline">
-        <p>The</p>
-        <div id="switcher">FOSS only</div>
-        <p>Distro</p>
-      </div>
-      <small>Our main goals are SOFT (simple, open, FOSS tools). "Simple" means this is the kind of distro you will go to after all distros like Arch piss you off. We are based in the EU (Slovakia), and are the second distribution from Slovakia, but the first of its kind (we are not based on Ubuntu, and are not discontinued). We support the x86_64 architecture, and use a custom package manager named Car. Currently, we are Arch-based, but that will only last for the beta. We do not use Calamares.</small><br>
-      <small>Sign up for the waitlist below, or try the Arch based beta. <span style = "color:red">(scroll down)</span></small><br><br><br><br><br>
-		<img src="redroselinuxi4.png"><br>
-		<button onclick="window.open('https://redroselinux.github.io/install.html', '_blank');">Try the Arch-based beta</button>
-    </div>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Redrose Linux</title>
+        <meta
+            name="description"
+            content="Redrose Linux — Simple, Open, FOSS tools. A Linux distro for when complex distros piss you off."
+        />
 
-	<br><br><br><br><br><br><br><br><br><br>
-	  	  <center>
-		  <img src="https://pbs.twimg.com/profile_images/1960368050223685633/wOkAf1Zb_400x400.jpg" height="16"> If you like Omarchy, you might like Redrose.<br>
-		  <img src="https://images.icon-icons.com/2699/PNG/512/nixos_logo_icon_170910.png" height="16"> If you like NixOS, you might like Redrose.
-	  </center>
-	  <br><br><br><br><br><br>
+        <style>
+            :root {
+                --bg: #0e0e11;
+                --fg: #eaeaf0;
+                --muted: #b0b0c0;
+                --accent: #ea645d;
+                --card: #16161d;
+                --border: #262636;
+            }
 
-	<section class="hero" id="software">
-      <div class="headline">
-        <p>Our</p>
-        <div id="switcher-software">Software</div>
-      </div>
-      <small>Redrose projects making Linux more beautiful, functional, and simple.</small>
-      <div class="software-list">
-        <div class="software-item">
-          <h3>✅ Umbrella</h3>
-          <p>Intelligent corrections for missing packages.</p>
-        </div>
-<div class="software-item">
-  <h3>🏗️ i4</h3>
-  <p>A DE on top of i3. In development.</p>
-</div>
+            * {
+                box-sizing: border-box;
+            }
 
-<div class="software-item">
-  <h3>✅ Car</h3>
-  <p>Replacement for pacman. Finished.</p>
-  <p>Package Viewer: <a href="https://redroselinux.github.io/car-package-viewer" target="_blank">https://redroselinux.github.io/car-package-viewer</a></p>
-</div>
+            body {
+                margin: 0;
+                font-family: system-ui, sans-serif;
+                background: var(--bg);
+                color: var(--fg);
+                line-height: 1.6;
+            }
 
-        <div class="software-item">
-          <h3>📝 RedRepro</h3>
-          <p>Advanced system reproducibility tool. In development.</p>
-        </div>
-		          <div class="software-item">
-          <h3>📝 redrosectl</h3>
-          <p>Tools to control migrations, Redrepro, Car and other Redrose Linux elements</p>
-        </div>
-        <div class="software-item">
-          <h3>🏗️ Redrose Linux</h3>
-          <p>{self.descriptions}</p>
-        </div>
-      </div>
-      <br><br>
-    </section>
+            a {
+                color: var(--accent);
+                text-decoration: none;
+            }
 
-	<br><br><br>
-	  	  <center>
-	<section>
-	<h1>Fast Package Completion</h1>
-	Many, many distros have package completion. But our package completion doesn't take 5 minutes to show!<br>
-	  <img src="completion.png"><br>
-	</section>
-	  </center><br><br><br><br>
-	  <center>
-		  <section>
-			  <h1>Custom Installer!</h1>
-			  <br><img src="installer.png">
-		  </section>
-	  </center><br><br><br><br><br><br><br><br><br><br><br><br>
+            /* ================= HERO ================= */
 
-    <div class="waitlist" id="waitlist">
-      <h2>Join the Waitlist</h2>
-      <p>Be the first to test Redrose Linux.</p>
-      <iframe 
-		src="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform?usp=header" 
-		width="60%" 
-		height="560" 
-		frameborder="0" 
-		marginheight="0" 
-		marginwidth="0">
-		<h1>Loading form</h1>
-	</iframe>
-    </div>
-<br><br><br>
-	  
-	<br><br><br>
+            header {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                border-bottom: 1px solid var(--border);
+                padding: 0 1.5rem;
+            }
 
-    <section class="contact" id="contact">
-      <h2>Contact</h2>
-      <p>Author - mostypc123 (Juraj Kollár, Slovakia)</p>
-      <ul>
-        <li>GitHub: <a href="https://github.com/mostypc123" target="_blank">@mostypc123</a></li>
-        <li>Matrix: @mostypc123:matrix.org</li>
-	    <li>Mail: mostypc7@gmail.com</li>
-        <li>Redrose Github Org: <a href="https://github.com/redroselinux" target="_blank">@redroselinux</a></li>
-      </ul>
-    </section>
+            .header-inner {
+                max-width: 1100px;
+                margin: auto;
+                width: 100%;
+                display: grid;
+                grid-template-columns: 1.1fr 0.9fr;
+                gap: 3rem;
+                align-items: center;
+            }
 
-    <script>
-      // dynamic text
-      const contentArray = ["FOSS only", "Reproducible", "Rolling and stable", "Riced", "User-friendly", "Dev-friendly"];
-      let index = 0;
-      setInterval(() => {
-        index = (index + 1) % contentArray.length;
-        document.getElementById("switcher").textContent = contentArray[index];
-      }, 1000);
+            header img {
+                max-width: 110px;
+                margin-bottom: 1rem;
+            }
 
-      // navbar visibility
-      const navbar = document.getElementById("navbar");
-      const hero = document.querySelector(".hero");
+            header h1 {
+                font-size: 3rem;
+                margin: 0.5rem 0;
+            }
 
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) navbar.classList.remove("visible");
-          else navbar.classList.add("visible");
-        });
-      }, { threshold: 0.3 });
-let x = 0, y = 0;
-let targetX = 0, targetY = 0;
+            header p {
+                max-width: 700px;
+                margin: 1rem auto;
+                color: var(--muted);
+                font-size: 1.1rem;
+            }
 
-const glow = document.querySelector('.cursor-glow');
+            .hero-img {
+                max-width: 100%;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+            }
 
-function animate() {
-  x += (targetX - x) * 0.15;
-  y += (targetY - y) * 0.15;
-  glow.style.transform = `translate(${x}px, ${y}px)`;
-  requestAnimationFrame(animate);
-}
+            .hero-cta {
+                margin-top: 2rem;
+            }
 
-document.addEventListener('mousemove', (e) => {
-  targetX = e.clientX;
-  targetY = e.clientY;
-});
+            .hero-cta a {
+                display: inline-block;
+                margin: 0.4rem;
+                padding: 0.8rem 1.5rem;
+                border-radius: 999px;
+                font-weight: 600;
+            }
 
-animate();
+            /* ================= COMMON ================= */
 
-      observer.observe(hero);
-    </script>
-  </body>
+            section {
+                padding: 4rem 1.5rem;
+                max-width: 1100px;
+                margin: auto;
+            }
+
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .badges span {
+                display: inline-block;
+                margin: 0.3rem 0.6rem 0 0;
+                color: var(--muted);
+            }
+
+            .primary {
+                background: var(--accent);
+                color: #fff;
+            }
+
+            .secondary {
+                border: 1px solid var(--border);
+                color: var(--fg);
+            }
+
+            /* ================= PROJECTS ================= */
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .card {
+                background: var(--card);
+                padding: 1.5rem;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+            }
+
+            .card h3 {
+                margin-top: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .card p {
+                color: var(--muted);
+                margin-bottom: 0;
+            }
+
+            /* ================= WAITLIST ================= */
+
+            .waitlist {
+                min-height: 100vh;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                background: linear-gradient(180deg, transparent, #120f14);
+                max-width: none;
+                margin: 0;
+                padding: 0 1.5rem;
+            }
+
+            .waitlist-inner {
+                max-width: 900px;
+            }
+
+            .cta-buttons a {
+                display: inline-block;
+                margin: 1rem 0.5rem 0;
+                padding: 0.9rem 1.6rem;
+                border-radius: 999px;
+                font-weight: 600;
+            }
+
+            /* ================= FOOTER ================= */
+
+            footer {
+                padding: 3rem 1.5rem;
+                border-top: 1px solid var(--border);
+                color: var(--muted);
+                font-size: 0.95rem;
+            }
+
+            .footer-inner {
+                max-width: 1100px;
+                margin: auto;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 3rem;
+            }
+
+            .footer-links {
+                text-align: right;
+            }
+
+            footer ul {
+                list-style: none;
+                padding: 0;
+            }
+
+            /* ================= RESPONSIVE ================= */
+
+            @media (max-width: 800px) {
+                header {
+                    min-height: auto;
+                    padding: 4rem 1.5rem;
+                }
+
+                .header-inner {
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+            }
+
+            @media (max-width: 700px) {
+                .footer-inner {
+                    grid-template-columns: 1fr;
+                    text-align: center;
+                }
+
+                .footer-links {
+                    text-align: center;
+                }
+            }
+            .dot {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                margin-right: 0.4rem;
+                vertical-align: middle;
+            }
+            .yellow {
+                background: #f2c94c;
+            }
+
+            .green {
+                background: #27ae60;
+            }
+
+            .blue {
+                background: #2d9cdb;
+            }
+
+            .gray {
+                background: #6b7280;
+            }
+        </style>
+
+        <script>
+            function confirmBetaInstall(e) {
+                e.preventDefault();
+
+                const message =
+                    "Important notice:\n\n" +
+                    "Redrose Linux is very close to becoming fully independent.\n\n" +
+                    "The current beta is plain Arch Linux with our custom package manager (Car) and tooling layered on top.\n\n" +
+                    "If you are expecting a fully independent Redrose base system, you should wait.\n\n" +
+                    "Do you want to continue to the beta install documentation?";
+
+                if (confirm(message)) {
+                    window.location.href =
+                        "https://redroselinux.miraheze.org/wiki/Install_Beta";
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <div class="header-inner">
+                <div>
+                    <img
+                        src="assets/redrose-logo-transparent.png"
+                        alt="Redrose Linux logo"
+                    />
+
+                    <h1>Redrose Linux</h1>
+
+                    <p>
+                        SOFT — <strong>Simple, Open, FOSS Tools</strong><br />
+                        The distro you use after Arch pisses you off. Rolling
+                        and stable, reproducible, beatiful.
+                    </p>
+
+                    <p>
+                        Based in the EU (Slovakia). Second Slovak distro. First
+                        of its kind.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a
+                            href="https://github.com/redroselinux"
+                            class="primary"
+                            >GitHub</a
+                        >
+                        <a
+                            href="#"
+                            class="secondary"
+                            onclick="confirmBetaInstall(event)"
+                            >Install Beta</a
+                        >
+                        <a
+                            href="https://redroselinux.miraheze.org"
+                            class="secondary"
+                            >Docs</a
+                        >
+                    </div>
+                </div>
+
+                <div>
+                    <img
+                        src="redroselinuxi4.png"
+                        alt="Redrose Linux desktop"
+                        class="hero-img"
+                    />
+                </div>
+            </div>
+        </header>
+
+        <section>
+            <h2>What is Redrose?</h2>
+            <p>
+                Redrose Linux is a modern Linux distribution focused on
+                simplicity without dumbing things down.
+            </p>
+
+            <div class="badges">
+                <span>✔ x86_64 only</span>
+                <span>✔ Custom installer</span>
+                <span>✔ No Calamares</span>
+                <span>✔ Custom package manager</span>
+                <span>✔ Independent (Arch-based for beta)</span>
+            </div>
+        </section>
+
+        <section>
+            <h2>Projects</h2>
+            <p>
+                Core components and tooling developed as part of the Redrose
+                ecosystem.
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>i4</h3>
+                    <p>
+                        A desktop enviroment built on top of i3 - lightweight
+                        and powerful.
+                    </p>
+                    <span class="dot yellow"></span> Nim
+                    <span class="dot blue"></span> Python
+                    <span class="dot green"></span> Bash
+                </div>
+
+                <div class="card">
+                    <h3>Car</h3>
+                    <p>
+                        Our package manager that uses a manifest file that is
+                        simpler than the PKGBUILDs on the AUR.
+                    </p>
+                    <span class="dot blue"></span> Python (i know, yes)
+                    <span class="dot gray"></span> C
+                </div>
+
+                <div class="card">
+                    <h3>redrosectl, redrepro, rr-sync</h3>
+                    <p>
+                        Control your system, reproduce it with a single file and
+                        backup your files on a self-hosted server.
+                    </p>
+                    <span class="dot yellow"></span> Nim
+                    <span class="dot blue"></span> Python
+                </div>
+
+                <div class="card">
+                    <h3>Redrose Linux Installer</h3>
+                    <p>
+                        Our custom installer built with Python. Just too many
+                        distros use Calamares.
+                    </p>
+                    <span class="dot blue"></span> Python
+                </div>
+
+                <div class="card">
+                    <h3>Redrose Linux</h3>
+                    <p>You should probably know what is this thing.</p>
+                </div>
+
+                <div class="card">
+                    <h3>More to come!</h3>
+                    <p>
+                        There is definitely much more to come, this is not
+                        everything we have ever made.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="waitlist" id="waitlist">
+            <div class="waitlist-inner">
+                <h2>Waitlist</h2>
+                <p>
+                    Join the waitlist for stable releases, or try the Arch-based
+                    beta now.
+                </p>
+
+                <div class="cta-buttons">
+                    <a href="#waitlist-form" class="primary"
+                        >Join the Waitlist</a
+                    >
+                    <a
+                        href="#"
+                        class="secondary"
+                        onclick="confirmBetaInstall(event)"
+                        >Install Beta</a
+                    >
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Documentation</h2>
+            <p>
+                <a href="https://redroselinux.miraheze.org">
+                    redroselinux.miraheze.org →
+                </a>
+            </p>
+        </section>
+
+        <footer>
+            <div class="footer-inner">
+                <div>
+                    <h3>Contact</h3>
+                    <ul>
+                        <li>
+                            Author: mostypc123 (Juraj Kollár, Slovakia) and
+                            contributors
+                        </li>
+                        <li>Matrix: @mostypc123:matrix.org</li>
+                        <li>Email: mostypc7@gmail.com</li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Links</h3>
+                    <ul>
+                        <li>
+                            <a href="https://github.com/redroselinux"
+                                >GitHub Organization →</a
+                            >
+                        </li>
+                        <li>
+                            <a href="https://github.com/mostypc123"
+                                >Author GitHub →</a
+                            >
+                        </li>
+                        <li>
+                            <a href="https://redroselinux.miraheze.org"
+                                >Documentation →</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
 </html>
