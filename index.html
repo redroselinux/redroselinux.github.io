@@ -151,19 +151,37 @@
             .waitlist {
                 min-height: 100vh;
                 width: 100%;
+
+                max-width: none;
+                margin: 0;
+                padding: 0 1.5rem;
+
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 text-align: center;
-                background: linear-gradient(180deg, transparent, #120f14);
-                max-width: none;
-                margin: 0;
-                padding: 0 1.5rem;
+
+                background-image: url("tiled_image.png");
+                background-repeat: repeat;
+                background-position: center;
+
+                isolation: isolate;
             }
+
 
             .waitlist-inner {
                 max-width: 900px;
+                padding: 2rem;
+
+                background: rgba(14, 14, 17, 0.35);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+
+                border-radius: 12px;
+                border: 2px solid var(--border);
             }
+
+
 
             .cta-buttons a {
                 display: inline-block;
@@ -177,9 +195,10 @@
 
             footer {
                 padding: 3rem 1.5rem;
-                border-top: 1px solid var(--border);
+
                 color: var(--muted);
                 font-size: 0.95rem;
+                background-image: linear-gradient(to bottom, var(--bg), var(--border));
             }
 
             .footer-inner {
@@ -279,7 +298,7 @@
                     <h1>Redrose Linux</h1>
 
                     <p>
-                        SOFT — <strong>Simple, Open, FOSS Tools</strong><br />
+                        SOFT - <strong>Simple, Open, FOSS Tools</strong><br />
                         The distro you use after Arch pisses you off. Rolling
                         and stable, reproducible, beatiful.
                     </p>
@@ -355,9 +374,9 @@
                         A desktop enviroment built on top of i3 - lightweight
                         and powerful.
                     </p>
-                    <span class="dot yellow"></span> Nim
-                    <span class="dot blue"></span> Python
-                    <span class="dot green"></span> Bash
+                    <span class="dot yellow"></span> Nim<br>
+                    <span class="dot blue"></span> Python<br>
+                    <span class="dot green"></span> Bash<br>
                 </div>
 
                 <div class="card">
@@ -366,8 +385,8 @@
                         Our package manager that uses a manifest file that is
                         simpler than the PKGBUILDs on the AUR.
                     </p>
-                    <span class="dot blue"></span> Python (i know, yes)
-                    <span class="dot gray"></span> C
+                    <span class="dot blue"></span> Python (i know, yes)<br>
+                    <span class="dot gray"></span> Might include other langs later
                 </div>
 
                 <div class="card">
@@ -376,7 +395,7 @@
                         Control your system, reproduce it with a single file and
                         backup your files on a self-hosted server.
                     </p>
-                    <span class="dot yellow"></span> Nim
+                    <span class="dot yellow"></span> Nim<br>
                     <span class="dot blue"></span> Python
                 </div>
 
