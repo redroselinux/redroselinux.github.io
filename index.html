@@ -9,6 +9,160 @@
             content="Redrose Linux — Simple, Open, FOSS tools. A Linux distro for when complex distros piss you off."
         />
 
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            const terminal = document.getElementById("terminal");
+            const input = document.getElementById("terminal-input");
+
+            const packages = [
+                "example","example2","crust","vim-build","vim","firefox",
+                "fortisauris-terminal-lms","zenity","ninja","xfce4-terminal",
+                "git","wget","ncurses","coreutils","nim","pkg-config",
+                "bash","libadwaita","autoconf","rust","make","icu"
+            ];
+
+            function printLine(text) {
+                const line = document.createElement("div");
+                line.className = "terminal-line";
+
+                if (text.startsWith("::")) {
+                    const blue = document.createElement("span");
+                    blue.textContent = "::";
+                    blue.style.color = "blue";
+
+                    const rest = document.createTextNode(text.slice(2));
+                    line.appendChild(blue);
+                    line.appendChild(rest);
+                } else {
+                    line.textContent = text;
+                }
+
+                terminal.insertBefore(line, terminal.lastElementChild);
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key !== "Enter") return;
+
+                const command = input.value.trim();
+                printLine("$ " + command);
+                input.value = "";
+
+                if (command === "") return;
+
+                if (command === "car --help") {
+                    printLine("usage: car [-h] {get,delete,update,search,updatelist,init,list,info} ...");
+                    printLine("");
+                    printLine("A simple package manager for Redrose Linux. Documentation is available at: https://redroselinux.miraheze.org/wiki/Car_Package_Manager");
+                    printLine("");
+                    printLine("positional arguments:");
+                    printLine("  {get,delete,update,search,updatelist,init,list,info}");
+                    printLine("    get                 Install packages");
+                    printLine("    delete              Uninstall a package");
+                    printLine("    update              Update system");
+                    printLine("    search              Search for a package");
+                    printLine("    updatelist          Update packagelist");
+                    printLine("    init                Init Car");
+                    printLine("    list                List installed packages");
+                    printLine("    info                Info about a package");
+                    printLine("");
+                    printLine("options:");
+                    printLine("  -h, --help            show this help message and exit");
+                    printLine("");
+                    printLine("Authors: Juraj Kollár (mostypc123) <mostypc7@gmail.com>");
+                } else if (command === "car") {
+                    printLine("usage: car [-h] {get,delete,update,search,updatelist,init,list,info} ...");
+                    printLine("car: error: the following arguments are required: command");
+                } else if (command === "car init") {
+                    printLine("Creating /etc/car/");
+                    printLine("Creating /etc/car/hooks");
+                    printLine("Creating /etc/car/saves");
+                    printLine("Created hook script at /etc/car/hooks/check_core.py");
+                    printLine("Created post-inst-hooks file at /etc/car/post-inst-hooks");
+
+                    setTimeout(() => {
+                        printLine("%cFetching https://raw.githubusercontent.com/redroselinux/car/main/existing-packages.txt", "color: blue");
+
+                        setTimeout(() => {
+                            printLine("%cFetching https://raw.githubusercontent.com/redroselinux/car-coreutils-repo/main/existing-packages.txt", "color: blue");
+                        }, 200);
+
+                    }, 200);
+
+                } else if (command.startsWith("car search")) {
+                    const args = command.split(" ").slice(2);
+                    const query = args.join("").toLowerCase();
+                    const results = packages.filter(p => p.includes(query));
+
+                    if (results.length === 0) {
+                        printLine("No packages found matching '" + query + "'");
+                    } else {
+                        printLine("Search results:");
+                        results.forEach(p => printLine("  " + p));
+                    }
+
+                } else if (command.startsWith("car get")) {
+                    const args = command.split(" ").slice(2);
+                    const pkgName = args[0];
+                    if (!pkgName || !packages.includes(pkgName)) {
+                        printLine("Package not found: " + pkgName);
+                        return;
+                    }
+                    
+                    printLine(":: Fetching package");
+                    printLine(`:: ${pkgName} is licensed under GPL-2.0-or-later`);
+                    printLine(":: The following packages are going to be installed:");
+                    printLine(`    ${pkgName}=0.0.1 - No description defined`);
+                    printLine(":: Install? (Y/n) ");
+
+                    setTimeout(() => {
+                        printLine(":: Installing");
+                        printLine(`:: Downloading ${pkgName} from https://github.com/redroselinux/car-coreutils-repo/raw/refs/heads/main/bin/${pkgName}`);
+                        printLine(":: Running hooks");
+                        printLine("(1/1) Running hook /etc/car/hooks/check_core.py");
+                    }, 150);
+                } else if (command === "car list") {
+                    printLine("bash=5.3");
+                    printLine("coreutils=9.2");
+                    printLine("example=0.0.1");
+                } else if (command === "car update") {
+                    printLine(":: Fetching updates");
+                        setTimeout(() => {
+                            printLine("Fetching https://raw.githubusercontent.com/redroselinux/car-binary-storage/main/existing-packages-versions.txt");
+                            setTimeout(() => {
+                                printLine("Fetching https://raw.githubusercontent.com/redroselinux/car-coreutils-repo/main/existing-packages-versions.txt");
+                                setTimeout(() => {
+                                    printLine("Fetching https://raw.githubusercontent.com/redroselinux/car/main/existing-packages.txt");
+                                    setTimeout(() => {
+                                        printLine("Fetching https://raw.githubusercontent.com/redroselinux/car-coreutils-repo/main/existing-packages.txt");
+                                        setTimeout(() => {
+                                            printLine(":: System up-to-date.");
+                                        }, 200);
+                                    }, 200);
+                                }, 200);
+                            }, 200);
+                        }, 200);
+                    } else if (command === "clear") {
+                    terminal.innerHTML = `
+                        <div class="input-line">
+                            $&nbsp;
+                            <input
+                            class="terminal-input"
+                            id="terminal-input"
+                            autocomplete="off"
+                            spellcheck="false"
+                            />
+                        </div>
+                    `;
+                    input = document.getElementById("terminal-input");
+                } else {
+                    printLine(`bash: command not found: ${command}`);
+                }
+            });
+        });
+        </script>
+
+
         <style>
             :root {
                 --bg: #0e0e11;
@@ -191,6 +345,61 @@
                 font-weight: 600;
             }
 
+            /* ================= TERMINAL ================= */
+
+            .terminal {
+                max-width: 1100px;
+                margin: auto;
+                padding: 4rem 1.5rem;
+            }
+
+            .terminal-window {
+                background: #0b0b0f;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                overflow: hidden;
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+            }
+
+            .terminal-titlebar {
+                background: #16161d;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                color: var(--muted);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .terminal-body {
+                padding: 1rem;
+                height: 600px;
+                overflow-y: auto;
+                color: #eaeaf0;
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                background: #0b0b0f;
+            }
+
+            .prompt {
+                color: var(--accent);
+            }
+
+            .input-line {
+                display: flex;
+            }
+
+            .input-line span {
+                margin-right: 0.4rem;
+            }
+
+            .terminal-input {
+                background: none;
+                border: none;
+                color: #eaeaf0;
+                outline: none;
+                flex: 1;
+                font-family: inherit;
+                font-size: 1rem;
+            }
+
             /* ================= FOOTER ================= */
 
             footer {
@@ -353,10 +562,33 @@
             <div class="badges">
                 <span>✔ <strong>Based in the EU</strong></span>
                 <span>✔ x86_64 only</span>
-                <span>✔ Custom installer</span>
-                <span>✔ No Calamares</span>
-                <span>✔ Custom package manager</span>
-                <span>✔ Independent (Arch-based for beta)</span>
+                <span>✔ <strong>Custom installer</strong></span>
+                <span>✔ NixOS-like features</span>
+                <span>✔ Riced, but still simple</span>
+                <span>✔ <strong>Custom package manager</strong></span>
+                <span>✔ <strong>Independent</strong> (Arch-based for beta)</span>
+            </div>
+        </section>
+
+        <section class="terminal">
+            <div class="terminal-window">
+                <div class="terminal-titlebar">
+                Test out the Redrose commands.
+                </div>
+
+                <div class="terminal-body" id="terminal">
+                currently supports only car. enter <strong>car --help</strong> to see how to use our package manager.
+
+                <div class="input-line">
+                    $&nbsp;
+                    <input
+                    class="terminal-input"
+                    id="terminal-input"
+                    autocomplete="off"
+                    spellcheck="false"
+                    />
+                </div>
+                </div>
             </div>
         </section>
 
@@ -459,6 +691,7 @@
                 </a>
             </p>
         </section>
+
 
         <footer>
             <div class="footer-inner">
