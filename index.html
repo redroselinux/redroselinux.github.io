@@ -41,6 +41,15 @@
                 terminal.scrollTop = terminal.scrollHeight;
             }
 
+            function appendHtml(html) {
+                const line = document.createElement("div");
+                line.className = "terminal-line";
+                line.innerHTML = html;  // insert raw HTML
+                terminal.insertBefore(line, terminal.lastElementChild);
+                terminal.scrollTop = terminal.scrollHeight;
+            }
+
+
             input.addEventListener("keydown", (e) => {
                 if (e.key !== "Enter") return;
 
@@ -155,6 +164,10 @@
                         </div>
                     `;
                     input = document.getElementById("terminal-input");
+                } else if (command === "gallery") {
+                    appendHtml("<center>")
+                    appendHtml('<strong>Image Gallery:</strong><br><img src="redroselinuxi4.png" alt="Redrose Linux Desktop" style="max-width: 100%; border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem;"><br><img src="installer.png" alt="Redrose Linux Installer" style="max-width: 100%; border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem;">');
+                    appendHtml("</center>");
                 } else {
                     printLine(`bash: command not found: ${command}`);
                 }
@@ -577,8 +590,8 @@
                 </div>
 
                 <div class="terminal-body" id="terminal">
-                currently supports only car. enter <strong>car --help</strong> to see how to use our package manager.
-
+                Currently supports only Car. Enter <strong>car --help</strong> to see how to use our package manager.
+                <br>You can also check a gallery of images by entering the <strong>gallery</strong> command.
                 <div class="input-line">
                     $&nbsp;
                     <input
