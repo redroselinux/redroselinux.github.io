@@ -597,8 +597,17 @@
                 </div>
                 </div>
             </div>
-        </section>
+        </section> <br><br><br> <br><br><br>
 
+        <center>
+            <section id="latest-commit-section">
+                <h2>Latest Commit</h2>
+                <p id="latest-commit">Fetching latest commit...</p>
+            </section>
+        </center>
+
+ <br><br><br> <br><br><br>
+        
         <section>
             <h2>Projects</h2>
             <p>
@@ -742,5 +751,46 @@
                 </div>
             </div>
         </footer>
+
+<!-- code quality war crime -->
+            <script>
+async function fetchLatestCommit() {
+    const repoOwner = "redroselinux";
+    const repoName = "redroselinux";
+    const outputEl = document.getElementById("latest-commit");
+
+    try {
+        const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits?per_page=1`;
+        const res = await fetch(url);
+        const commits = await res.json();
+
+        if (!Array.isArray(commits) || commits.length === 0) {
+            outputEl.textContent = "No commits found.";
+            return;
+        }
+
+        const latest = commits[0];
+        const fullMessage = latest.commit.message;
+        const title = fullMessage.split("\n")[0]; // Only the first line
+        const authorName = latest.commit.author.name;
+        const date = latest.commit.author.date;
+        const sha = latest.sha;
+
+        outputEl.innerHTML = `
+            <strong>Title:</strong> ${title} <br>
+            <strong>Author:</strong> ${authorName} <br>
+            <strong>Date:</strong> ${new Date(date).toLocaleString()} <br>
+            <strong>Commit:</strong> <code>${sha}</code>
+        `;
+    } catch (err) {
+        outputEl.textContent = "Error fetching latest commit.";
+        console.error(err);
+    }
+}
+
+// Run automatically on page load
+document.addEventListener("DOMContentLoaded", fetchLatestCommit);
+</script>
+
     </body>
 </html>
