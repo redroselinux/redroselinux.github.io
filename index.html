@@ -173,6 +173,26 @@
                 }
             });
         });
+        document.addEventListener("DOMContentLoaded", () => {
+    const downloadLinks = document.querySelectorAll('a[href="http://redroselinux.is-a.software/downloads/"]');
+    const modal = document.getElementById("download-modal");
+    const iframe = document.getElementById("download-iframe");
+    const closeBtn = document.getElementById("close-modal");
+
+    downloadLinks.forEach(link => {
+        link.addEventListener("click", e => {
+            e.preventDefault();
+            iframe.src = link.href;
+            modal.style.display = "flex";
+        });
+    });
+
+    closeBtn.addEventListener("click", () => {
+        iframe.src = "";
+        modal.style.display = "none";
+    });
+});
+
         </script>
 
 
@@ -492,16 +512,9 @@
             function confirmBetaInstall(e) {
                 e.preventDefault();
 
-                const message =
-                    "Important notice:\n\n" +
-                    "Redrose Linux is very close to becoming fully independent.\n\n" +
-                    "The current beta is plain Arch Linux with our custom package manager (Car) and tooling layered on top.\n\n" +
-                    "If you are expecting a fully independent Redrose base system, you should wait.\n\n" +
-                    "Do you want to continue to the beta install documentation?";
-
-                if (confirm(message)) {
+                if (true) {
                     window.location.href =
-                        "https://redroselinux.miraheze.org/wiki/Install_Beta";
+                        "";
                 }
             }
         </script>
@@ -746,10 +759,17 @@
                 </div>
             </div>
         </footer>
+<div id="download-modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:80%; max-width:1000px; height:70%; max-height:700px; z-index:1000;">
+    <div style="position:relative; width:100%; height:100%; background:#0b0b0f; border-radius:8px; overflow:hidden; border:1px solid var(--accent);">
+        <button id="close-modal" style="position:absolute; top:10px; right:10px; z-index:10; font-size:1.5rem; background:none; border:none; color:var(--accent); cursor:pointer;">&times;</button>
+        <iframe src="" id="download-iframe" style="width:100%; height:100%; border:none; background:#0b0b0f;"></iframe>
+    </div>
+</div>
 
 <!-- code quality war crime -->
             <script>
-// code quality war crime
+ // // code quality war crime
+// // i love pasting
                 function timeAgo(dateString) {
     const now = new Date();
     const past = new Date(dateString);
