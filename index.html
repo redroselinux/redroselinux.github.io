@@ -488,24 +488,6 @@
                 background: #6b7280;
             }
         </style>
-
-        <script>
-            function confirmBetaInstall(e) {
-                e.preventDefault();
-
-                const message =
-                    "Important notice:\n\n" +
-                    "Redrose Linux is very close to becoming fully independent.\n\n" +
-                    "The current beta is plain Arch Linux with our custom package manager (Car) and tooling layered on top.\n\n" +
-                    "If you are expecting a fully independent Redrose base system, you should wait.\n\n" +
-                    "Do you want to continue to the beta install documentation?";
-
-                if (confirm(message)) {
-                    window.location.href =
-                        "https://redroselinux.miraheze.org/wiki/Install_Beta";
-                }
-            }
-        </script>
     </head>
 
     <body>
@@ -611,7 +593,7 @@
                 <div class="card">
                     <h3>i4</h3>
                     <p>
-                        A desktop enviroment built on top of i3 - lightweight
+                        A desktop enviroment built on top of Sway - lightweight
                         and powerful.
                     </p>
                     <span class="dot yellow"></span> Nim 
