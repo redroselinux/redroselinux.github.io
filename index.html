@@ -1,7 +1,11 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <link rel="icon" type="image/x-icon" href="https://redroselinux.is-a.software/assets/redrose-logo-transparent.png">
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="https://redroselinux.is-a.software/assets/redrose-logo-transparent.png"
+        />
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Redrose Linux</title>
@@ -16,170 +20,153 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-            const terminal = document.getElementById("terminal");
-            const input = document.getElementById("terminal-input");
+                const terminal = document.getElementById("terminal");
+                let input = document.getElementById("terminal-input");
 
-            const packages = [
-                "example","example2","crust","vim-build","vim","firefox",
-                "fortisauris-terminal-lms","zenity","ninja","xfce4-terminal",
-                "git","wget","ncurses","coreutils","nim","pkg-config",
-                "bash","libadwaita","autoconf","rust","make","icu"
-            ];
+                const availablePackages = ["example"];
+                const installedPackages = new Set();
+                let initialized = true;
 
-            function printLine(text) {
-                const line = document.createElement("div");
-                line.className = "terminal-line";
-
-                if (text.startsWith("::")) {
-                    const blue = document.createElement("span");
-                    blue.textContent = "::";
-                    blue.style.color = "blue";
-
-                    const rest = document.createTextNode(text.slice(2));
-                    line.appendChild(blue);
-                    line.appendChild(rest);
-                } else {
+                function printLine(text) {
+                    const line = document.createElement("div");
+                    line.className = "terminal-line";
                     line.textContent = text;
+                    terminal.insertBefore(line, terminal.lastElementChild);
+                    terminal.scrollTop = terminal.scrollHeight;
                 }
 
-                terminal.insertBefore(line, terminal.lastElementChild);
-                terminal.scrollTop = terminal.scrollHeight;
-            }
+                const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
-            function appendHtml(html) {
-                const line = document.createElement("div");
-                line.className = "terminal-line";
-                line.innerHTML = html;  // insert raw HTML
-                terminal.insertBefore(line, terminal.lastElementChild);
-                terminal.scrollTop = terminal.scrollHeight;
-            }
+                function resetTerminal() {
+                    terminal.innerHTML = `
+                    <div class="input-line">
+                        $&nbsp;
+                        <input class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false"/>
+                    </div>
+                `;
+                    input = document.getElementById("terminal-input");
+                    bindInput();
+                    input.focus();
+                }
 
-
-            input.addEventListener("keydown", (e) => {
-                if (e.key !== "Enter") return;
-
-                const command = input.value.trim();
-                printLine("$ " + command);
-                input.value = "";
-
-                if (command === "") return;
-
-                if (command === "car --help") {
-                    printLine("usage: car [-h] {get,delete,update,search,updatelist,init,list,info} ...");
-                    printLine("");
-                    printLine("A simple package manager for Redrose Linux. Documentation is available at: https://redroselinux.miraheze.org/wiki/Car_Package_Manager");
-                    printLine("");
-                    printLine("positional arguments:");
-                    printLine("  {get,delete,update,search,updatelist,init,list,info}");
-                    printLine("    get                 Install packages");
-                    printLine("    delete              Uninstall a package");
-                    printLine("    update              Update system");
-                    printLine("    search              Search for a package");
-                    printLine("    updatelist          Update packagelist");
-                    printLine("    init                Init Car");
-                    printLine("    list                List installed packages");
-                    printLine("    info                Info about a package");
-                    printLine("");
-                    printLine("options:");
-                    printLine("  -h, --help            show this help message and exit");
-                    printLine("");
-                    printLine("Authors: Juraj Kollár (mostypc123) <mostypc7@gmail.com>");
-                } else if (command === "car") {
-                    printLine("usage: car [-h] {get,delete,update,search,updatelist,init,list,info} ...");
-                    printLine("car: error: the following arguments are required: command");
-                } else if (command === "car init") {
-                    printLine("Creating /etc/car/");
-                    printLine("Creating /etc/car/hooks");
-                    printLine("Creating /etc/car/saves");
-                    printLine("Created hook script at /etc/car/hooks/check_core.py");
-                    printLine("Created post-inst-hooks file at /etc/car/post-inst-hooks");
-
-                    setTimeout(() => {
-                        printLine("%cFetching https://raw.githubusercontent.com/redroselinux/car/main/existing-packages.txt", "color: blue");
-
-                        setTimeout(() => {
-                            printLine("%cFetching https://raw.githubusercontent.com/redroselinux/car-coreutils-repo/main/existing-packages.txt", "color: blue");
-                        }, 200);
-
-                    }, 200);
-
-                } else if (command.startsWith("car search")) {
-                    const args = command.split(" ").slice(2);
-                    const query = args.join("").toLowerCase();
-                    const results = packages.filter(p => p.includes(query));
-
-                    if (results.length === 0) {
-                        printLine("No packages found matching '" + query + "'");
-                    } else {
-                        printLine("Search results:");
-                        results.forEach(p => printLine("  " + p));
-                    }
-
-                } else if (command.startsWith("car get")) {
-                    const args = command.split(" ").slice(2);
-                    const pkgName = args[0];
-                    if (!pkgName || !packages.includes(pkgName)) {
-                        printLine("Package not found: " + pkgName);
+                async function carCommand(args, sudo) {
+                    if (!sudo) {
+                        printLine("error: this operation must be run as root");
                         return;
                     }
-                    
-                    printLine(":: Fetching package");
-                    printLine(`:: ${pkgName} is licensed under GPL-2.0-or-later`);
-                    printLine(":: The following packages are going to be installed:");
-                    printLine(`    ${pkgName}=0.0.1 - No description defined`);
-                    printLine(":: Install? (Y/n) ");
 
-                    setTimeout(() => {
-                        printLine(":: Installing");
-                        printLine(`:: Downloading ${pkgName} from https://github.com/redroselinux/car-coreutils-repo/raw/refs/heads/main/bin/${pkgName}`);
-                        printLine(":: Running hooks");
-                        printLine("(1/1) Running hook /etc/car/hooks/check_core.py");
-                    }, 150);
-                } else if (command === "car list") {
-                    printLine("bash=5.3");
-                    printLine("coreutils=9.2");
-                    printLine("example=0.0.1");
-                } else if (command === "car update") {
-                    printLine(":: Fetching updates");
-                        setTimeout(() => {
-                            printLine("Fetching https://raw.githubusercontent.com/redroselinux/car-binary-storage/main/existing-packages-versions.txt");
-                            setTimeout(() => {
-                                printLine("Fetching https://raw.githubusercontent.com/redroselinux/car-coreutils-repo/main/existing-packages-versions.txt");
-                                setTimeout(() => {
-                                    printLine("Fetching https://raw.githubusercontent.com/redroselinux/car/main/existing-packages.txt");
-                                    setTimeout(() => {
-                                        printLine("Fetching https://raw.githubusercontent.com/redroselinux/car-coreutils-repo/main/existing-packages.txt");
-                                        setTimeout(() => {
-                                            printLine(":: System up-to-date.");
-                                        }, 200);
-                                    }, 200);
-                                }, 200);
-                            }, 200);
-                        }, 200);
-                    } else if (command === "clear") {
-                    terminal.innerHTML = `
-                        <div class="input-line">
-                            $&nbsp;
-                            <input
-                            class="terminal-input"
-                            id="terminal-input"
-                            autocomplete="off"
-                            spellcheck="false"
-                            />
-                        </div>
-                    `;
-                    input = document.getElementById("terminal-input");
-                } else if (command === "gallery") {
-                    appendHtml("<center>")
-                    appendHtml('<strong>Image Gallery:</strong><br><img src="redroselinuxi4.png" alt="Redrose Linux Desktop" style="max-width: 100%; border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem;"><br><img src="installer.png" alt="Redrose Linux Installer" style="max-width: 100%; border: 1px solid var(--border); border-radius: 12px; margin-top: 1rem;">');
-                    appendHtml("</center>");
-                } else {
+                    const cmd = args[0];
+
+                    if (cmd === "get") {
+                        const pkg = args[1];
+
+                        if (!availablePackages.includes(pkg)) {
+                            printLine(`error: package not found: ${pkg || ""}`);
+                            return;
+                        }
+
+                        if (installedPackages.has(pkg)) {
+                            printLine(
+                                `info: package already installed: ${pkg}`,
+                            );
+                            return;
+                        }
+
+                        printLine(`info: package cached: ${pkg}`);
+                        await wait(120);
+                        installedPackages.add(pkg);
+                        printLine(
+                            `ok: installed ${pkg} (0.1) successfully in 8 ms`,
+                        );
+                        return;
+                    }
+
+                    if (cmd === "update") {
+                        printLine("info: updating package list");
+                        await wait(120);
+                        printLine("ok: package list updated");
+                        printLine("info: reading lists");
+                        printLine("info: populating lists");
+                        await wait(120);
+                        printLine("ok: system is up to date");
+                        return;
+                    }
+
+                    if (cmd === "init") {
+                        const force = args.includes("--force");
+
+                        if (initialized && !force) {
+                            printLine("info: creating car configs");
+                            printLine("error: already initialized. to reinit:");
+                            printLine("error: > car init --force");
+                            return;
+                        }
+
+                        printLine("info: creating car configs");
+                        if (force) {
+                            printLine("warning: forced re-init");
+                        }
+
+                        printLine("pick: mirror (pick one close to you)");
+                        printLine(
+                            "option: [1]: https://github.com/redroselinux/car3-pkgs/raw/refs/heads/main/README",
+                        );
+
+                        await wait(200);
+                        printLine("> 1");
+
+                        await wait(150);
+                        printLine("info: updating package list");
+                        await wait(120);
+                        printLine("ok: package list updated");
+
+                        initialized = true;
+                        return;
+                    }
+
+                    printLine(`error: unknown command: ${cmd}`);
+                }
+
+                async function execute(command) {
+                    if (!command) return;
+
+                    if (command === "clear") {
+                        resetTerminal();
+                        return;
+                    }
+
+                    const parts = command.split(/\s+/);
+
+                    if (parts[0] === "car") {
+                        await carCommand(parts.slice(1), false);
+                        return;
+                    }
+
+                    if (parts[0] === "sudo" && parts[1] === "car") {
+                        printLine("[sudo] password for user:");
+                        await wait(200);
+                        await carCommand(parts.slice(2), true);
+                        return;
+                    }
+
                     printLine(`bash: command not found: ${command}`);
                 }
-            });
-        });
-        </script>
 
+                function bindInput() {
+                    input.addEventListener("keydown", async (e) => {
+                        if (e.key !== "Enter") return;
+
+                        const command = input.value.trim();
+                        printLine("$ " + command);
+                        input.value = "";
+
+                        await execute(command);
+                    });
+                }
+
+                bindInput();
+            });
+        </script>
 
         <style>
             :root {
@@ -208,7 +195,7 @@
                 text-decoration: none;
             }
             a:hover {
-                background-color: var(--border)
+                background-color: var(--border);
             }
 
             header {
@@ -332,7 +319,6 @@
                 isolation: isolate;
             }
 
-
             .waitlist-inner {
                 max-width: 900px;
                 padding: 2rem;
@@ -340,7 +326,7 @@
                 background: rgba(14, 14, 17, 0.35);
                 backdrop-filter: blur(12px);
                 -webkit-backdrop-filter: blur(12px);
-                border-radius: 5px
+                border-radius: 5px;
             }
 
             .cta-buttons a {
@@ -406,7 +392,11 @@
 
                 color: var(--muted);
                 font-size: 0.95rem;
-                background-image: linear-gradient(to bottom, var(--bg), var(--border));
+                background-image: linear-gradient(
+                    to bottom,
+                    var(--bg),
+                    var(--border)
+                );
             }
 
             .footer-inner {
@@ -482,32 +472,38 @@
                         src="assets/redrose-logo-transparent.png"
                         alt="Redrose Linux logo"
                     />
-        
+
                     <h1>Redrose Linux</h1>
-        
-                   <p> A GNU/Linux distribution for people who know Linux, but still want a
-            simple system on an independent base from the EU (we are from
-            Slovakia). It also includes other features like reproducibility and
-            a custom desktop environment. By default, we do not allow users to
-            install proprietary software.</p>
-        
+
+                    <p>
+                        A GNU/Linux distribution for people who know Linux, but
+                        still want a simple system on an independent base from
+                        the EU (we are from Slovakia). It also includes other
+                        features like reproducibility and a custom desktop
+                        environment. By default, we do not allow users to
+                        install proprietary software.
+                    </p>
+
                     <div class="hero-cta">
                         <a
                             href="http://redroselinux.is-a.software/downloads/"
                             class="secondary"
-                        >Download (alpha)</a>
+                            >Download (alpha)</a
+                        >
                         <a
                             href="https://github.com/redroselinux"
                             class="secondary"
-                        >GitHub</a>
-        
+                            >GitHub</a
+                        >
+
                         <a
                             href="https://redroselinux.miraheze.org"
                             class="secondary"
-                        >Documentation</a>
+                            >Documentation</a
+                        >
                     </div>
                 </div>
-        
+
                 <div>
                     <img
                         src="redroselinuxi4.png"
@@ -520,7 +516,10 @@
         <section>
             <h2>What is Redrose?</h2>
             <p>
-                Redrose Linux is a modern Linux distribution for users who use complex distros, but want something that works the same but is much easier. If an LLM tells you its based on some other distribution its purely hallucinating🥀
+                Redrose Linux is a modern Linux distribution for users who use
+                complex distros, but want something that works the same but is
+                much easier. If an LLM tells you its based on some other
+                distribution its purely hallucinating🥀
             </p>
             <p>
                 The core aims are to be FOSS-only and dev-friendly. We are based
@@ -528,7 +527,9 @@
                 that the distro before us is discontinued.
             </p>
             <p>
-                You might also remember us as "Minixor Linux" and "Crust Project". The name was changed to Redrose Linux in October-November 2025.
+                You might also remember us as "Minixor Linux" and "Crust
+                Project". The name was changed to Redrose Linux in
+                October-November 2025.
             </p>
 
             <div class="badges">
@@ -542,32 +543,42 @@
                 <span>✔ <strong>Independent</strong></span>
             </div>
 
-            <p>This project was my dream ever since I was 8 years old, and what finally made me start doing it was a Linux shell. I started building a Linux distro around it, and this is the result.</p>
+            <p>
+                This project was my dream ever since I was 8 years old, and what
+                finally made me start doing it was a Linux shell. I started
+                building a Linux distro around it, and this is the result.
+            </p>
         </section>
 
         <section class="terminal">
             <div class="terminal-window">
                 <div class="terminal-titlebar">
-                Test out the Redrose commands.
-                <span style="color: gray"> (simulated)</span>
+                    Test out the Redrose commands.
+                    <span style="color: var(--border)"> (simulated)</span>
                 </div>
 
                 <div class="terminal-body" id="terminal">
-                Currently supports only Car. Enter <strong>car --help</strong> to see how to use our package manager.
-                <br>You can also check a gallery of images by entering the <strong>gallery</strong> command.<br><h3>Car is being rewritten in Nim, please wait until we update the terminal simulation.</h3>
-                <div class="input-line">
-                    $&nbsp;
-                    <input
-                    class="terminal-input"
-                    id="terminal-input"
-                    autocomplete="off"
-                    spellcheck="false"
-                    />
-                </div>
+                    Currently supports only Car. Enter
+                    <strong>car --help</strong> to see how to use our package
+                    manager. <br />You can also check a gallery of images by
+                    entering the <strong>gallery</strong> command.<br />
+                    <h3>
+                        Car is being rewritten in Nim, please wait until we
+                        fully update the terminal simulation.
+                    </h3>
+                    <div class="input-line">
+                        redrose@iuseredrosebtw ~ $ &nbsp;
+                        <input
+                            class="terminal-input"
+                            id="terminal-input"
+                            autocomplete="off"
+                            spellcheck="false"
+                        />
+                    </div>
                 </div>
             </div>
-        </section> 
-        
+        </section>
+
         <section>
             <h2>Projects</h2>
             <p>
@@ -582,16 +593,14 @@
                         A desktop enviroment built on top of Sway - lightweight
                         and powerful.
                     </p>
-                    <span class="dot yellow"></span> Nim 
-                    <span class="dot blue"></span> Python 
-                    <span class="dot green"></span> Bash 
+                    <span class="dot yellow"></span> Nim
+                    <span class="dot blue"></span> Python
+                    <span class="dot green"></span> Bash
                 </div>
 
                 <div class="card">
                     <h3>Car</h3>
-                    <p>
-                        Our package manager. currently being rewritten in Nim
-                    </p>
+                    <p>Our package manager. currently being rewritten in Nim</p>
                     <span class="dot yellow"></span> Nim
                 </div>
 
@@ -601,15 +610,15 @@
                         Control your system, reproduce it with a single file and
                         backup your files on a self-hosted server.
                     </p>
-                    <span class="dot yellow"></span> Nim 
+                    <span class="dot yellow"></span> Nim
                     <span class="dot blue"></span> Python
                 </div>
 
                 <div class="card">
                     <h3>Redrose Linux Installer</h3>
                     <p>
-                        Our custom installer built with C. Just too many
-                        distros use Calamares.
+                        Our custom installer built with C. Just too many distros
+                        use Calamares.
                     </p>
                     <span class="dot gray"></span> C
                 </div>
@@ -627,42 +636,51 @@
                     </p>
                 </div>
             </div>
-        </section><br><br><br><br><br> <center>
+        </section>
+        <br /><br /><br /><br /><br />
+        <center>
             <section id="latest-commit-section">
-    <h2>we work on it.. a lot</h2>
-    <p id="latest-commit">Fetching latest commit...</p>
-    <p><small>fetched from main branch of main Redrose Linux repo</small></p>
-</section> <br><br><br><br><br><br> </center>
-
+                <h2>we work on it.. a lot</h2>
+                <p id="latest-commit">Fetching latest commit...</p>
+                <p>
+                    <small
+                        >fetched from main branch of main Redrose Linux
+                        repo</small
+                    >
+                </p>
+            </section>
+            <br /><br /><br /><br /><br /><br />
+        </center>
 
         <section class="waitlist" id="waitlist">
             <div class="waitlist-inner">
                 <h2>Waitlist</h2>
-        
+
                 <p>
-                    Redrose Linux is currently in <strong>alpha</strong> and now runs on
-                    a fully <strong>independent base system</strong>.
+                    Redrose Linux is currently in <strong>alpha</strong> and now
+                    runs on a fully <strong>independent base system</strong>.
                 </p>
-        
+
                 <p>
-                    Join the waitlist for future stable releases, or try the independent
-                    alpha build today.
+                    Join the waitlist for future stable releases, or try the
+                    independent alpha build today.
                 </p>
-        
+
                 <div class="cta-buttons">
-                    <a 
+                    <a
                         href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform?usp=header"
                         class="secondary"
-                    >Join the Waitlist</a>
-        
+                        >Join the Waitlist</a
+                    >
+
                     <a
                         href="http://redroselinux.is-a.software/downloads/"
                         class="secondary"
-                    >Download (alpha)</a>
+                        >Download (alpha)</a
+                    >
                 </div>
             </div>
         </section>
-
 
         <section>
             <h2>Documentation and Github</h2>
@@ -677,7 +695,6 @@
                 </a>
             </p>
         </section>
-
 
         <footer>
             <div class="footer-inner">
@@ -716,68 +733,67 @@
             </div>
         </footer>
 
-<!-- code quality war crime -->
-            <script>
-// code quality war crime
-                function timeAgo(dateString) {
-    const now = new Date();
-    const past = new Date(dateString);
-    const seconds = Math.floor((now - past) / 1000);
+        <!-- code quality war crime -->
+        <script>
+            // code quality war crime
+            function timeAgo(dateString) {
+                const now = new Date();
+                const past = new Date(dateString);
+                const seconds = Math.floor((now - past) / 1000);
 
-    const intervals = [
-        { label: "year", seconds: 31536000 },
-        { label: "month", seconds: 2592000 },
-        { label: "day", seconds: 86400 },
-        { label: "hour", seconds: 3600 },
-        { label: "minute", seconds: 60 },
-        { label: "second", seconds: 1 }
-    ];
+                const intervals = [
+                    { label: "year", seconds: 31536000 },
+                    { label: "month", seconds: 2592000 },
+                    { label: "day", seconds: 86400 },
+                    { label: "hour", seconds: 3600 },
+                    { label: "minute", seconds: 60 },
+                    { label: "second", seconds: 1 },
+                ];
 
-    for (const interval of intervals) {
-        const count = Math.floor(seconds / interval.seconds);
-        if (count >= 1) {
-            return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
-        }
-    }
-    return "just now";
-}
-async function fetchLatestCommit() {
-    const repoOwner = "redroselinux";
-    const repoName = "redroselinux";
-    const outputEl = document.getElementById("latest-commit");
+                for (const interval of intervals) {
+                    const count = Math.floor(seconds / interval.seconds);
+                    if (count >= 1) {
+                        return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
+                    }
+                }
+                return "just now";
+            }
+            async function fetchLatestCommit() {
+                const repoOwner = "redroselinux";
+                const repoName = "redroselinux";
+                const outputEl = document.getElementById("latest-commit");
 
-    try {
-        const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits?per_page=1`;
-        const res = await fetch(url);
-        const commits = await res.json();
+                try {
+                    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits?per_page=1`;
+                    const res = await fetch(url);
+                    const commits = await res.json();
 
-        if (!Array.isArray(commits) || commits.length === 0) {
-            outputEl.textContent = "No commits found.";
-            return;
-        }
+                    if (!Array.isArray(commits) || commits.length === 0) {
+                        outputEl.textContent = "No commits found.";
+                        return;
+                    }
 
-        const latest = commits[0];
-        const fullMessage = latest.commit.message;
-        const title = fullMessage.split("\n")[0]; // Only the first line
-        const authorName = latest.commit.author.name;
-        const date = latest.commit.author.date;
-        const sha = latest.sha;
+                    const latest = commits[0];
+                    const fullMessage = latest.commit.message;
+                    const title = fullMessage.split("\n")[0]; // Only the first line
+                    const authorName = latest.commit.author.name;
+                    const date = latest.commit.author.date;
+                    const sha = latest.sha;
 
-        outputEl.innerHTML = `
+                    outputEl.innerHTML = `
             <h3>${title}<h3> <br>
             from ${authorName} <br>
             ${timeAgo(date)} <br>
             <code>${sha}</code>
         `;
-    } catch (err) {
-        outputEl.textContent = "Error fetching latest commit.";
-        console.error(err);
-    }
-}
+                } catch (err) {
+                    outputEl.textContent = "Error fetching latest commit.";
+                    console.error(err);
+                }
+            }
 
-// Run automatically on page load
-document.addEventListener("DOMContentLoaded", fetchLatestCommit);
-</script>
-
+            // Run automatically on page load
+            document.addEventListener("DOMContentLoaded", fetchLatestCommit);
+        </script>
     </body>
 </html>
