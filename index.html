@@ -1,4 +1,4 @@
-;    <!doctype html>
+<!doctype html>
 <html lang="en">
     <head>
         <link rel="icon" type="image/x-icon" href="https://redroselinux.is-a.software/assets/redrose-logo-transparent.png">
@@ -207,8 +207,9 @@
                 color: var(--accent);
                 text-decoration: none;
             }
-
-            /* ================= HERO ================= */
+            a:hover {
+                background-color: var(--border)
+            }
 
             header {
                 min-height: 100vh;
@@ -247,8 +248,6 @@
 
             .hero-img {
                 max-width: 100%;
-                border-radius: 12px;
-                border: 1px solid var(--border);
             }
 
             .hero-cta {
@@ -259,11 +258,8 @@
                 display: inline-block;
                 margin: 0.4rem;
                 padding: 0.8rem 1.5rem;
-                border-radius: 15px;
                 font-weight: 600;
             }
-
-            /* ================= COMMON ================= */
 
             section {
                 padding: 4rem 1.5rem;
@@ -292,8 +288,6 @@
                 color: var(--fg);
             }
 
-            /* ================= PROJECTS ================= */
-
             .grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -317,8 +311,6 @@
                 color: var(--muted);
                 margin-bottom: 0;
             }
-
-            /* ================= WAITLIST ================= */
 
             .waitlist {
                 min-height: 100vh;
@@ -348,22 +340,15 @@
                 background: rgba(14, 14, 17, 0.35);
                 backdrop-filter: blur(12px);
                 -webkit-backdrop-filter: blur(12px);
-
-                border: 1px solid var(--accent);
-                border-radius: 4px;
+                border-radius: 5px
             }
-
-
 
             .cta-buttons a {
                 display: inline-block;
                 margin: 1rem 0.5rem 0;
                 padding: 0.9rem 1.6rem;
-                border-radius: 15px;
                 font-weight: 600;
             }
-
-            /* ================= TERMINAL ================= */
 
             .terminal {
                 max-width: 1100px;
@@ -373,7 +358,6 @@
 
             .terminal-window {
                 background: #0b0b0f;
-                border: 1px solid var(--accent);
                 border-radius: 6px;
                 overflow: hidden;
                 font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -417,8 +401,6 @@
                 font-size: 1rem;
             }
 
-            /* ================= FOOTER ================= */
-
             footer {
                 padding: 3rem 1.5rem;
 
@@ -443,8 +425,6 @@
                 list-style: none;
                 padding: 0;
             }
-
-            /* ================= RESPONSIVE ================= */
 
             @media (max-width: 800px) {
                 header {
@@ -514,7 +494,7 @@
                     <div class="hero-cta">
                         <a
                             href="http://redroselinux.is-a.software/downloads/"
-                            class="primary"
+                            class="secondary"
                         >Download (alpha)</a>
                         <a
                             href="https://github.com/redroselinux"
@@ -531,7 +511,7 @@
                 <div>
                     <img
                         src="redroselinuxi4.png"
-                        alt="Redrose Linux desktop"
+                        alt="thing"
                         class="hero-img"
                     />
                 </div>
@@ -672,7 +652,7 @@
                 <div class="cta-buttons">
                     <a 
                         href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform?usp=header"
-                        class="primary"
+                        class="secondary"
                     >Join the Waitlist</a>
         
                     <a
