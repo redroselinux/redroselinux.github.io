@@ -1,0 +1,138 @@
+* {
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        "Open Sans",
+        "Helvetica Neue",
+        sans-serif;
+}
+
+body {
+    background-color: #121212;
+}
+
+nav {
+    border-radius: 15px;
+    padding: 3px 5px 3px 5px;
+    background-color: #ff8787;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .main {
+    color: black;
+    font-size: 30px;
+}
+
+nav a {
+    text-decoration: underline;
+    color: black;
+    font-size: 20px;
+}
+
+nav a:hover {
+    text-decoration: none;
+    font-style: italic;
+    color: white;
+    background-color: #121212;
+    padding: 3px;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #121212;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, max-content));
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    border-radius: 15px;
+    border: 5px solid #ff8787;
+    padding: 20px;
+    color: white;
+}
+
+.terminal {
+    width: 100%;
+    max-width: 1000px;
+    height: 500px;
+    margin: 40px auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 3px solid #ff8787;
+    background-color: #000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.terminal .title {
+    background-color: #ff8787;
+    color: black;
+    padding: 10px 15px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.terminal .ckeditor {
+    padding: 15px;
+    min-height: 250px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 20px;
+    background-color: black;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+code {
+    background-color: #2a0000;
+    color: #ff8787;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-family: monospace;
+    font-size: 16px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+pre code {
+    display: block;
+    padding: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #1f0000;
+}
+
+a {
+    background-color: #ff8787;
+    text-decoration: underline;
+    color: black;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+a:hover {
+    text-decoration: none;
+    font-style: italic;
+    background-color: black;
+    color: white;
+    border: 2px solid #ff8787;
+}
