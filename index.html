@@ -1,791 +1,150 @@
 <!doctype html>
-<html lang="en">
+<html>
     <head>
-        <link
-            rel="icon"
-            type="image/x-icon"
-            href="https://redroselinux.is-a.software/assets/redrose-logo-transparent.png"
-        />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Redrose Linux</title>
-        <meta
-            name="description"
-            content="This is an independent distro from Europe (slovakia). This distro is kind of opinionated, is reproducible, FOSS-only (possible to override) and has a custom package manager. Mainly made for my own needs and for what I like about Linux."
-        />
-
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const terminal = document.getElementById("terminal");
-                let input = document.getElementById("terminal-input");
-
-                const availablePackages = ["example"];
-                const installedPackages = new Set();
-                let initialized = true;
-
-                function printLine(text) {
-                    const line = document.createElement("div");
-                    line.className = "terminal-line";
-                    line.textContent = text;
-                    terminal.insertBefore(line, terminal.lastElementChild);
-                    terminal.scrollTop = terminal.scrollHeight;
-                }
-
-                const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-
-                function resetTerminal() {
-                    terminal.innerHTML = `
-                    <div class="input-line">
-                        $&nbsp;
-                        <input class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false"/>
-                    </div>
-                `;
-                    input = document.getElementById("terminal-input");
-                    bindInput();
-                    input.focus();
-                }
-
-                async function carCommand(args, sudo) {
-                    if (!sudo) {
-                        printLine("error: this operation must be run as root");
-                        return;
-                    }
-
-                    const cmd = args[0];
-
-                    if (cmd === "get") {
-                        const pkg = args[1];
-
-                        if (!availablePackages.includes(pkg)) {
-                            printLine(`error: package not found: ${pkg || ""}`);
-                            return;
-                        }
-
-                        if (installedPackages.has(pkg)) {
-                            printLine(
-                                `info: package already installed: ${pkg}`,
-                            );
-                            return;
-                        }
-
-                        printLine(`info: package cached: ${pkg}`);
-                        await wait(120);
-                        installedPackages.add(pkg);
-                        printLine(
-                            `ok: installed ${pkg} (0.1) successfully in 8 ms`,
-                        );
-                        return;
-                    }
-
-                    if (cmd === "update") {
-                        printLine("info: updating package list");
-                        await wait(120);
-                        printLine("ok: package list updated");
-                        printLine("info: reading lists");
-                        printLine("info: populating lists");
-                        await wait(120);
-                        printLine("ok: system is up to date");
-                        return;
-                    }
-
-                    if (cmd === "init") {
-                        const force = args.includes("--force");
-
-                        if (initialized && !force) {
-                            printLine("info: creating car configs");
-                            printLine("error: already initialized. to reinit:");
-                            printLine("error: > car init --force");
-                            return;
-                        }
-
-                        printLine("info: creating car configs");
-                        if (force) {
-                            printLine("warning: forced re-init");
-                        }
-
-                        printLine("pick: mirror (pick one close to you)");
-                        printLine(
-                            "option: [1]: https://github.com/redroselinux/car3-pkgs/raw/refs/heads/main/README",
-                        );
-
-                        await wait(200);
-                        printLine("> 1");
-
-                        await wait(150);
-                        printLine("info: updating package list");
-                        await wait(120);
-                        printLine("ok: package list updated");
-
-                        initialized = true;
-                        return;
-                    }
-
-                    printLine(`error: unknown command: ${cmd}`);
-                }
-
-                async function execute(command) {
-                    if (!command) return;
-
-                    if (command === "clear") {
-                        resetTerminal();
-                        return;
-                    }
-
-                    const parts = command.split(/\s+/);
-
-                    if (parts[0] === "car") {
-                        await carCommand(parts.slice(1), false);
-                        return;
-                    }
-
-                    if (parts[0] === "sudo" && parts[1] === "car") {
-                        printLine("[sudo] password for user:");
-                        await wait(200);
-                        await carCommand(parts.slice(2), true);
-                        return;
-                    }
-
-                    printLine(`bash: command not found: ${command}`);
-                }
-
-                function bindInput() {
-                    input.addEventListener("keydown", async (e) => {
-                        if (e.key !== "Enter") return;
-
-                        const command = input.value.trim();
-                        printLine("$ " + command);
-                        input.value = "";
-
-                        await execute(command);
-                    });
-                }
-
-                bindInput();
-            });
-        </script>
-
-        <style>
-            :root {
-                --bg: #0e0e11;
-                --fg: #eaeaf0;
-                --muted: #b0b0c0;
-                --accent: #ea645d;
-                --card: #16161d;
-                --border: #262636;
-            }
-
-            * {
-                box-sizing: border-box;
-            }
-
-            body {
-                margin: 0;
-                font-family: system-ui, sans-serif;
-                background: var(--bg);
-                color: var(--fg);
-                line-height: 1.6;
-            }
-
-            a {
-                color: var(--accent);
-                text-decoration: none;
-            }
-            a:hover {
-                background-color: var(--border);
-            }
-
-            header {
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-                border-bottom: 1px solid var(--border);
-                padding: 0 1.5rem;
-            }
-
-            .header-inner {
-                max-width: 1100px;
-                margin: auto;
-                width: 100%;
-                display: grid;
-                grid-template-columns: 1.1fr 0.9fr;
-                gap: 3rem;
-                align-items: center;
-            }
-
-            header img {
-                max-width: 110px;
-                margin-bottom: 1rem;
-            }
-
-            header h1 {
-                font-size: 3rem;
-                margin: 0.5rem 0;
-            }
-
-            header p {
-                max-width: 700px;
-                margin: 1rem auto;
-                color: var(--muted);
-                font-size: 1.1rem;
-            }
-
-            .hero-img {
-                max-width: 100%;
-            }
-
-            .hero-cta {
-                margin-top: 2rem;
-            }
-
-            .hero-cta a {
-                display: inline-block;
-                margin: 0.4rem;
-                padding: 0.8rem 1.5rem;
-                font-weight: 600;
-            }
-
-            section {
-                padding: 4rem 1.5rem;
-                max-width: 1100px;
-                margin: auto;
-            }
-
-            h2 {
-                font-size: 2rem;
-                margin-bottom: 1rem;
-            }
-
-            .badges span {
-                display: inline-block;
-                margin: 0.3rem 0.6rem 0 0;
-                color: var(--muted);
-            }
-
-            .primary {
-                background: var(--accent);
-                color: #fff;
-            }
-
-            .secondary {
-                border: 1px solid var(--border);
-                color: var(--fg);
-            }
-
-            .grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-                gap: 1.5rem;
-                margin-top: 2rem;
-            }
-
-            .card {
-                background: var(--card);
-                padding: 1.5rem;
-                border-radius: 6px;
-                border: 1px solid var(--border);
-            }
-
-            .card h3 {
-                margin-top: 0;
-                margin-bottom: 0.5rem;
-            }
-
-            .card p {
-                color: var(--muted);
-                margin-bottom: 0;
-            }
-
-            .waitlist {
-                min-height: 100vh;
-                width: 100%;
-
-                max-width: none;
-                margin: 0;
-                padding: 0 1.5rem;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-
-                background-image: url("tiled_image.png");
-                background-repeat: repeat;
-                background-position: center;
-
-                isolation: isolate;
-            }
-
-            .waitlist-inner {
-                max-width: 900px;
-                padding: 2rem;
-
-                background: rgba(14, 14, 17, 0.35);
-                backdrop-filter: blur(12px);
-                -webkit-backdrop-filter: blur(12px);
-                border-radius: 5px;
-            }
-
-            .cta-buttons a {
-                display: inline-block;
-                margin: 1rem 0.5rem 0;
-                padding: 0.9rem 1.6rem;
-                font-weight: 600;
-            }
-
-            .terminal {
-                max-width: 1100px;
-                margin: auto;
-                padding: 4rem 1.5rem;
-            }
-
-            .terminal-window {
-                background: #0b0b0f;
-                border-radius: 6px;
-                overflow: hidden;
-                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-            }
-
-            .terminal-titlebar {
-                background: #0b0b0f;
-                padding: 0.6rem 1rem;
-                font-size: 0.9rem;
-                color: var(--muted);
-            }
-
-            .terminal-body {
-                padding: 1rem;
-                height: 600px;
-                overflow-y: auto;
-                color: #eaeaf0;
-                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-                background: #0b0b0f;
-            }
-
-            .prompt {
-                color: var(--accent);
-            }
-
-            .input-line {
-                display: flex;
-            }
-
-            .input-line span {
-                margin-right: 0.4rem;
-            }
-
-            .terminal-input {
-                background: none;
-                border: none;
-                color: #eaeaf0;
-                outline: none;
-                flex: 1;
-                font-family: inherit;
-                font-size: 1rem;
-            }
-
-            footer {
-                padding: 3rem 1.5rem;
-
-                color: var(--muted);
-                font-size: 0.95rem;
-                background-image: linear-gradient(
-                    to bottom,
-                    var(--bg),
-                    var(--border)
-                );
-            }
-
-            .footer-inner {
-                max-width: 1100px;
-                margin: auto;
-                display: grid;
-                grid-template-columns: 1fr auto;
-                gap: 3rem;
-            }
-
-            .footer-links {
-                text-align: right;
-            }
-
-            footer ul {
-                list-style: none;
-                padding: 0;
-            }
-
-            @media (max-width: 800px) {
-                header {
-                    min-height: auto;
-                    padding: 4rem 1.5rem;
-                }
-
-                .header-inner {
-                    grid-template-columns: 1fr;
-                    text-align: center;
-                }
-            }
-
-            @media (max-width: 700px) {
-                .footer-inner {
-                    grid-template-columns: 1fr;
-                    text-align: center;
-                }
-
-                .footer-links {
-                    text-align: center;
-                }
-            }
-            .dot {
-                display: inline-block;
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                margin-right: 0.4rem;
-                vertical-align: middle;
-            }
-            .yellow {
-                background: #f2c94c;
-            }
-
-            .green {
-                background: #27ae60;
-            }
-
-            .blue {
-                background: #2d9cdb;
-            }
-
-            .gray {
-                background: #6b7280;
-            }
-        </style>
+        <script src="./script.js" defer></script>
+        <link href="./styles.css" rel="stylesheet" />
     </head>
-
     <body>
-        <header>
-            <div class="header-inner">
+        <nav>
+            <div style="display: flex; align-items: center">
+                <img src="./logo.png" height="30" width="30" />
+                <span class="main">Redrose Linux</span>
+            </div>
+            <div>
+                <b><a href="./index.html">Home</a></b>
+                <a href="https://github.com/redroselinux">Github</a>
+                <a href="https://redroselinux.miraheze.org">Documentation</a>
+                <a href="./download.html">Download</a>
+            </div>
+        </nav>
+        <div class="hero-content"
+            <div
+                style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 50px;
+                "
+            >
+                <div style="max-width: 500px; text-align: left">
+                    <h1
+                        style="
+                            color: white;
+                            font-size: 36px;
+                            margin: 0 0 20px 0;
+                        "
+                    >
+                        Redrose Linux
+                    </h1>
+                    <p style="font-size: 20px; color: white; margin: 0">
+                        An independent, x86_64 based systemd-free Linux distribution from Slovakia.
+                        This distro combines features from other distributions (mainly NixOS and Arch)
+                        in a way that prioritizes simplicity and user choice.
+                        <br /><br />
+                        <span style="color: gray">look at the navbar for links and downlaods!</span>
+                    </p>
+                </div>
+
                 <div>
                     <img
-                        src="assets/redrose-logo-transparent.png"
-                        alt="Redrose Linux logo"
-                    />
-
-                    <h1>Redrose Linux</h1>
-
-                    <p>
-                        This is an independent distro from Europe (slovakia). This distro is kind of opinionated, is reproducible, FOSS-only (possible to override) and has a custom package manager. Mainly made for my own needs and for what I like about Linux.
-                    </p>
-
-                    <div class="hero-cta">
-                        <a
-                            href="http://redroselinux.is-a.software/downloads/"
-                            class="secondary"
-                            >Download (alpha)</a
-                        >
-                        <a
-                            href="https://github.com/redroselinux"
-                            class="secondary"
-                            >GitHub</a
-                        >
-
-                        <a
-                            href="https://redroselinux.miraheze.org"
-                            class="secondary"
-                            >Documentation</a
-                        >
-                    </div>
-                </div>
-
-                <div>
-                    <img
-                        src="redroselinuxi4.png"
-                        alt="thing"
-                        class="hero-img"
+                        src="./hero.png"
+                        alt="Hero Image"
+                        style="max-width: 800px; height: auto"
                     />
                 </div>
             </div>
-        </header>
-        <section>
-            <h2>What is Redrose?</h2>
-            <p>
-                Redrose Linux is a modern Linux distribution for users who use
-                complex distros, but want something that works the same but is
-                much easier. If an LLM tells you its based on some other
-                distribution its purely hallucinating🥀
-            </p>
-            <p>
-                The core aims are to be FOSS-only and dev-friendly. We are based
-                in Slovakia, and are the second ever distro from Slovakia. Note
-                that the distro before us is discontinued.
-            </p>
-            <p>I am making this distro for my own needs, so if you don't like fast package managment or whatever that this has, then just use what you like. We are not the same person, that is okay.</p>
-            <p>
-                You might also remember us as "Minixor Linux" and "Crust
-                Project". The name was changed to Redrose Linux in
-                October-November 2025.
-            </p>
-
-            <div class="badges">
-                <span>✔ <strong>Based in the EU</strong></span>
-                <span>✔ x86_64 only</span>
-                <span>✔ <strong>Custom installer</strong></span>
-                <span>✔ NixOS-like features</span>
-                <span>✔ Riced, but still simple</span>
-                <span>✔ Custom desktop enviroment</span>
-                <span>✔ <strong>Custom package manager</strong></span>
-                <span>✔ <strong>Independent</strong></span>
+        </div>
+        <div class="grid" align="center">
+            <div class="card">
+                <h3>[ <span style="color: #ff8787;">EVIL</span> ] systemd</h3>
+                We use a custom init system that boots quickly and is [ <b style="color: lightgreen;">OK</b> ].<br />
+                <b style="color: #ff8787;"
+                    >Currently a work in progress</b
+                >
             </div>
-
-            <p>
-                This project was my dream ever since I was 8 years old, and what
-                finally made me start doing it was a Linux shell. I started
-                building a Linux distro around it, and this is the result.
-            </p>
-        </section>
-
-        <section class="terminal">
-            <div class="terminal-window">
-                <div class="terminal-titlebar">
-                    Test out the Redrose commands.
-                    <span style="color: var(--border)"> (simulated)</span>
-                </div>
-
-                <div class="terminal-body" id="terminal">
-                    Currently supports only Car. Enter
-                    <strong>car --help</strong> to see how to use our package
-                    manager. <br />You can also check a gallery of images by
-                    entering the <strong>gallery</strong> command.<br />
-                    <h3>
-                        Car is being rewritten in Nim, please wait until we
-                        fully update the terminal simulation.
-                    </h3>
-                    <div class="input-line">
-                        redrose@iuseredrosebtw ~ $ &nbsp;
-                        <input
-                            class="terminal-input"
-                            id="terminal-input"
-                            autocomplete="off"
-                            spellcheck="false"
-                        />
-                    </div>
-                </div>
+            <div class="card">
+                <h3>Independent</h3>
+                Is this another Debian-based distro with a theme? NO.<br />
+                I think we had enough of these, so called "new distros".
             </div>
-        </section>
-
-        <section>
-            <h2>Projects</h2>
-            <p>
-                Core components and tooling developed as part of the Redrose
-                ecosystem.
-            </p>
-
-            <div class="grid">
-                <div class="card">
-                    <h3>i4</h3>
-                    <p>
-                        A desktop enviroment built on top of Sway - lightweight
-                        and powerful.
-                    </p>
-                    <span class="dot yellow"></span> Nim
-                    <span class="dot blue"></span> Python
-                    <span class="dot green"></span> Bash
-                </div>
-
-                <div class="card">
-                    <h3>Car</h3>
-                    <p>Our package manager. currently being rewritten in Nim</p>
-                    <span class="dot yellow"></span> Nim
-                </div>
-
-                <div class="card">
-                    <h3>redrosectl, redrepro, rr-sync</h3>
-                    <p>
-                        Control your system, reproduce it with a single file and
-                        backup your files on a self-hosted server.
-                    </p>
-                    <span class="dot yellow"></span> Nim
-                    <span class="dot blue"></span> Python
-                </div>
-
-                <div class="card">
-                    <h3>Redrose Linux Installer</h3>
-                    <p>
-                        Our custom installer built with C. Just too many distros
-                        use Calamares.
-                    </p>
-                    <span class="dot gray"></span> C
-                </div>
-
-                <div class="card">
-                    <h3>Redrose Linux</h3>
-                    <p>You should probably know what is this thing.</p>
-                </div>
-
-                <div class="card">
-                    <h3>More to come!</h3>
-                    <p>
-                        There is definitely much more to come, this is not
-                        everything we have ever made.
-                    </p>
-                </div>
-            </div>
-        </section>
-        <br /><br /><br /><br /><br />
-        <center>
-            <section id="latest-commit-section">
-                <h2>we work on it.. a lot</h2>
-                <p id="latest-commit">Fetching latest commit...</p>
-                <p>
-                    <small
-                        >fetched from main branch of main Redrose Linux
-                        repo</small
+            <div class="card">
+                <h3>
+                    Reproducibility <span style="background-color: #ff8787; border-radius: 5px; padding: 5px"
+                        >COMING SOON</span
                     >
-                </p>
-            </section>
-            <br /><br /><br /><br /><br /><br />
-        </center>
-
-        <section class="waitlist" id="waitlist">
-            <div class="waitlist-inner">
-                <h2>Waitlist</h2>
-
-                <p>
-                    Redrose Linux is currently in <strong>alpha</strong> and now
-                    runs on a fully <strong>independent base system</strong>.
-                </p>
-
-                <p>
-                    Join the waitlist for future stable releases, or try the
-                    independent alpha build today.
-                </p>
-
-                <div class="cta-buttons">
-                    <a
-                        href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform?usp=header"
-                        class="secondary"
-                        >Join the Waitlist</a
+                </h3>
+                An <b style="color: lightgreen;">optional</b> feature.
+                <br />This feature is heavily inspired by NixOS, of course.
+            </div>
+        </div>
+        <br />
+        <div class="grid">
+            <div class="card">
+                <img src="i4.png" alt="i4" style="height: 250px; margin: auto; display: block;" />
+                <h3 align="center">
+                    Custom DE (i4) <span style="background-color: #ff8787; border-radius: 5px; padding: 5px"
+                        >COMING SOON</span
                     >
-
-                    <a
-                        href="http://redroselinux.is-a.software/downloads/"
-                        class="secondary"
-                        >Download (alpha)</a
-                    >
+                </h3>
+                <div align="center">
+                    A desktop enviroment based on Sway (originally i3) <br />
+                    that is ment to feel like a tiling WM while being a
+                    DE.
                 </div>
             </div>
-        </section>
-
-        <section>
-            <h2>Documentation and Github</h2>
-            <p>
-                <a href="https://redroselinux.miraheze.org">
-                    redroselinux.miraheze.org →
-                </a>
-            </p>
-            <p>
-                <a href="https://github.com/redroselinux">
-                    github.com/redroselinux →
-                </a>
-            </p>
-        </section>
-
-        <footer>
-            <div class="footer-inner">
-                <div>
-                    <h3>Contact</h3>
-                    <ul>
-                        <li>
-                            Author: mostypc123 (Juraj Kollár, Slovakia) and
-                            contributors
-                        </li>
-                        <li>Matrix: @mostypc123:matrix.org</li>
-                        <li>Email: mostypc7@gmail.com</li>
-                    </ul>
+            <div class="card">
+                <h3 align="center">Custom PM (car)</h3>
+                <div align="center">
+                    Package manager focusing on being BLAZING fast. <br />
+                    Most pkgs are installed under 100ms. Made in <span style="color: yellow;">Nim</span>.
                 </div>
-
-                <div class="footer-links">
-                    <h3>Links</h3>
-                    <ul>
-                        <li>
-                            <a href="https://github.com/redroselinux"
-                                >GitHub Organization →</a
-                            >
-                        </li>
-                        <li>
-                            <a href="https://github.com/mostypc123"
-                                >Author GitHub →</a
-                            >
-                        </li>
-                        <li>
-                            <a href="https://redroselinux.miraheze.org"
-                                >Documentation →</a
-                            >
-                        </li>
-                    </ul>
+                <img src="car.png" alt="car" style="height: 250px; margin: auto; display: block;" />
+            </div>
+            <div class="card">
+                <img src="installer.png" alt="car" style="height: 250px; margin: auto; display: block;" />
+                <h3 align="center">The installer</h3>
+                <div align="center">
+                    The installer for Redrose Linux.<br>
+                    Written in <span style="color: gray;">C</span>.
                 </div>
             </div>
+        </div>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <h1 align="center" style="color: white">Test out Redrose commands</h1>
+        <p align="center" style="color: white; font-size: 20px">
+            Start by typing <code>car</code> to show the options of Car.
+        </p>
+        <div class="terminal">
+            <div class="title">Terminal</div>
+            <div class="ckeditor"></div>
+        </div>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <div align="center">
+            <img src="logo.png" height="200px" alt="Redrose logo">
+            <h1 style="color: white">Ready to start?</h1>
+            <p style="color: white; font-size: 20px">
+                <a href="download.html" style="color: white">Download the installer</a>
+                <a href="https://redroselinux.miraheze.org/wiki/Installation" style="color: white">Installation docs</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform" style="color: white">Waitlist</a>
+            </p>
+        </div>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <footer
+            style="
+                background-color: #1f0000;
+                color: white;
+                text-align: center;
+                padding: 20px;
+                font-size: 14px;
+                margin-top: 50px;
+            "
+        >
+            <hr />
+            <br />
+            &copy; 2026 Redrose Linux |
+            <a href="https://github.com/redroselinux">GitHub</a>
+            |
+            <a href="https://redroselinux.miraheze.org">Documentation</a>
         </footer>
-
-        <!-- code quality war crime -->
-        <script>
-            // code quality war crime
-            function timeAgo(dateString) {
-                const now = new Date();
-                const past = new Date(dateString);
-                const seconds = Math.floor((now - past) / 1000);
-
-                const intervals = [
-                    { label: "year", seconds: 31536000 },
-                    { label: "month", seconds: 2592000 },
-                    { label: "day", seconds: 86400 },
-                    { label: "hour", seconds: 3600 },
-                    { label: "minute", seconds: 60 },
-                    { label: "second", seconds: 1 },
-                ];
-
-                for (const interval of intervals) {
-                    const count = Math.floor(seconds / interval.seconds);
-                    if (count >= 1) {
-                        return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
-                    }
-                }
-                return "just now";
-            }
-            async function fetchLatestCommit() {
-                const repoOwner = "redroselinux";
-                const repoName = "redroselinux";
-                const outputEl = document.getElementById("latest-commit");
-
-                try {
-                    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits?per_page=1`;
-                    const res = await fetch(url);
-                    const commits = await res.json();
-
-                    if (!Array.isArray(commits) || commits.length === 0) {
-                        outputEl.textContent = "No commits found.";
-                        return;
-                    }
-
-                    const latest = commits[0];
-                    const fullMessage = latest.commit.message;
-                    const title = fullMessage.split("\n")[0]; // Only the first line
-                    const authorName = latest.commit.author.name;
-                    const date = latest.commit.author.date;
-                    const sha = latest.sha;
-
-                    outputEl.innerHTML = `
-            <h3>${title}<h3> <br>
-            from ${authorName} <br>
-            ${timeAgo(date)} <br>
-            <code>${sha}</code>
-        `;
-                } catch (err) {
-                    outputEl.textContent = "Error fetching latest commit.";
-                    console.error(err);
-                }
-            }
-
-            // Run automatically on page load
-            document.addEventListener("DOMContentLoaded", fetchLatestCommit);
-        </script>
     </body>
 </html>
