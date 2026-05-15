@@ -16,10 +16,10 @@
 
         <style>
             :root {
-                --bg: #010101;
-                --fg: #eaeaf0;
+                --bg: #120000;
+                --fg: #fff;
                 --muted: lightgray;
-                --accent: #ea645d;
+                --accent: #520202;
                 --card: #0f0f0f;
                 --border: #ffffff;
             }
@@ -42,14 +42,134 @@
             }
             a:hover {
                 background-color: var(--border);
+                color: var(--bg);
             }
+
+            nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 2rem;
+                height: 56px;
+                background: rgba(18, 0, 0, 0.75);
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            }
+
+            .nav-brand {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                font-weight: 700;
+                font-size: 1rem;
+                color: var(--fg);
+            }
+
+            .nav-brand img {
+                height: 26px;
+                width: auto;
+            }
+
+            .nav-brand:hover {
+                background: none;
+                color: var(--accent);
+            }
+
+            .nav-links {
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 0.35rem 0.75rem;
+                font-size: 0.9rem;
+                color: var(--muted);
+                border-radius: 6px;
+                transition: color 0.15s, background 0.15s;
+            }
+
+            .nav-links a:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: var(--fg);
+            }
+
+            .nav-links .nav-cta a {
+                background: var(--accent);
+                color: #fff;
+                font-weight: 600;
+                padding: 0.35rem 1rem;
+            }
+
+            .nav-links .nav-cta a:hover {
+                background: #fff;
+                color: var(--bg);
+            }
+
+            .nav-toggle {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                padding: 6px;
+                background: none;
+                border: none;
+            }
+
+            .nav-toggle span {
+                display: block;
+                width: 22px;
+                height: 2px;
+                background: var(--fg);
+                border-radius: 2px;
+                transition: transform 0.25s, opacity 0.25s;
+            }
+
+            .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+            .nav-toggle.open span:nth-child(2) { opacity: 0; }
+            .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+            @media (max-width: 640px) {
+                .nav-toggle { display: flex; }
+
+                .nav-links {
+                    display: none;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0;
+                    position: absolute;
+                    top: 56px;
+                    left: 0;
+                    right: 0;
+                    background: rgba(18, 0, 0, 0.97);
+                    border-bottom: 1px solid rgba(255,255,255,0.08);
+                    padding: 0.75rem 1rem 1rem;
+                }
+
+                .nav-links.open { display: flex; }
+
+                .nav-links a { font-size: 1rem; padding: 0.55rem 0.75rem; }
+            }
+
+            header { padding-top: 56px; }
 
             header {
                 min-height: 100vh;
                 display: flex;
                 align-items: center;
                 border-bottom: 1px solid var(--border);
-                padding: 0 1.5rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
             }
 
             .header-inner {
@@ -57,7 +177,7 @@
                 margin: auto;
                 width: 50%;
                 display: grid;
-                grid-template-columns: 1.1fr 0.9fr;
+                grid-template-columns: 1fr 1.2fr;
                 gap: 3rem;
                 align-items: center;
             }
@@ -79,6 +199,8 @@
             }
 
             .hero-img {
+                width: 100%;
+                min-width: 400px;
                 max-width: 100%;
             }
 
@@ -89,8 +211,10 @@
             .hero-cta a {
                 display: inline-block;
                 margin: 0.4rem;
-                padding: 0.8rem 1.5rem;
+                padding: 10px 15px;
                 font-weight: 600;
+                transition: color 0.15s, background 0.15s;
+                border-radius: 10px;
             }
 
             section {
@@ -112,11 +236,12 @@
 
             .primary {
                 background: var(--accent);
+                border: 1px solid var(--);
                 color: #fff;
             }
 
             .secondary {
-                border: 1px solid var(--border);
+                border: 1px solid var(--accent);
                 color: var(--fg);
             }
 
@@ -153,8 +278,10 @@
             .cta-buttons a {
                 display: inline-block;
                 margin: 1rem 0.5rem 0;
-                padding: 0.9rem 1.6rem;
+                padding: 10px 15px;
                 font-weight: 600;
+                transition: color 0.15s, background 0.15s;
+                border-radius: 10px;
             }
 
             footer {
@@ -162,11 +289,6 @@
 
                 color: var(--muted);
                 font-size: 0.95rem;
-                background-image: linear-gradient(
-                    to bottom,
-                    var(--bg),
-                    var(--card)
-                );
             }
 
             .footer-inner {
@@ -189,7 +311,8 @@
             @media (max-width: 800px) {
                 header {
                     min-height: auto;
-                    padding: 4rem 1.5rem;
+                    padding-top: 5rem;
+                    padding-bottom: 4rem;
                 }
 
                 .header-inner {
@@ -231,10 +354,55 @@
             .gray {
                 background: #6b7280;
             }
+
+            .screenshot-right {
+                float: right;
+                max-width: 45%;
+                margin: 0 0 1.5rem 2rem;
+            }
+
+            .screenshot-right img {
+                max-width: 100%;
+                display: block;
+            }
+
+            .clearfix::after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+            @media (max-width: 600px) {
+                .screenshot-right {
+                    float: none;
+                    max-width: 100%;
+                    margin: 1.5rem 0;
+                }
+            }
         </style>
     </head>
 
     <body>
+
+        <nav>
+            <a href="/" class="nav-brand">
+                <img src="assets/redrose-logo-transparent.png" alt="Redrose Linux logo" />
+                Redrose Linux
+            </a>
+
+            <button class="nav-toggle" aria-label="Toggle menu" onclick="this.classList.toggle('open'); document.getElementById('nav-links').classList.toggle('open');">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#why">Why?</a></li>
+                <li><a href="#waitlist">Waitlist</a></li>
+                <li><a href="https://redroselinux.miraheze.org">Docs</a></li>
+                <li><a href="https://github.com/redroselinux">GitHub</a></li>
+                <li class="nav-cta"><a href="./download.html">Download</a></li>
+            </ul>
+        </nav>
+
         <header>
             <div class="header-inner">
                 <div>
@@ -244,22 +412,22 @@
                         height="44"
                     />
 
-                    <span style="font-size: 44px;">Redrose Linux</span>
+                    <span style="font-size: 44px;">Redrose Linux</span><br>
 
-                    <p>
+                    <p style="font-size: 15px;">
                         An independent x86_64 systemd-free FOSS-only-by-default Linux distribution from Slovakia. We have a custom package manager and a custom DE is coming soon. There are also plans for reproducibiity in the distro.
                     </p>
 
                     <div class="hero-cta">
                         <a
                             href="./download.html"
-                            class="secondary"
-                            >Download (alpha)</a
+                            class="primary"
+                            >Download</a
                         >
                         <a
                             href="https://github.com/redroselinux"
                             class="secondary"
-                            >GitHub</a
+                            >Github</a
                         >
 
                         <a
@@ -279,7 +447,9 @@
                 </div>
             </div>
         </header>
-        <section>
+
+        <section class="clearfix" id="why">
+            <img src="./installer.png" alt="Redrose Linux installer" class="screenshot-right" />
             <h2>Why?</h2>
             <p>
                 The main issue with a lot of distros is:
@@ -294,21 +464,22 @@
             <p><i>The installer is made in <span class="dot gray"></span> C.</i></p>
         </section>
 
-        <div align="center">
-            <img src="./installer.png">
-        </div>
-
-        <section>
+        <section class="clearfix" id="car">
+            <img src="./car.png" alt="Car package manager" class="screenshot-right" />
             <h2>Our package manager - Car</h2>
             <p>
                 Car fixes a big issue of a lot of classic package managers as APT or DNF, which is speed. Car is extremely fast and uses a .tar.zst format, however it supports native conversion of .deb files (support for other formats is coming soon!).
             </p>
             <p><i>Car is made in <span class="dot yellow"></span> Nim.</i></p>
         </section>
-        <div align="center">
-            <img src="./car.png">
-        </div>
-        <br /><br /><br /><br /><br />
+
+        <section class="clearfix" id="coreutils">
+            <img src="./pick-utils.png" alt="utilities pick" class="screenshot-right" />
+            <h2>Pick your coreutils</h2>
+            <p>
+                We will not force you to use GNU coreutils. We will not force you to use uutils. We will not force you to use Busybox. You pick whatever you want.
+            </p>
+        </section>
 
         <section class="waitlist" id="waitlist">
             <div class="waitlist-inner">
@@ -327,7 +498,7 @@
                 <div class="cta-buttons">
                     <a
                         href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform?usp=header"
-                        class="secondary"
+                        class="primary"
                         >Join the Waitlist</a
                     >
 
