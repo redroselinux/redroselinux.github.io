@@ -331,6 +331,93 @@
                     text-align: center;
                 }
             }
+
+            #news-sidebar {
+                position: fixed;
+                right: 1rem;
+                top: 72px;
+                width: 260px;
+                max-height: calc(100vh - 90px);
+                overflow-y: auto;
+                background: var(--card);
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 8px;
+                padding: 1rem;
+                z-index: 50;
+                font-size: 0.85rem;
+            }
+
+            #news-sidebar h3 {
+                font-size: 1rem;
+                margin: 0 0 0.75rem;
+                color: var(--fg);
+            }
+
+            #news-sidebar .news-item {
+                display: block;
+                padding: 0.4rem 0.5rem;
+                margin: 0 -0.5rem;
+                border-radius: 6px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                text-decoration: none;
+                color: inherit;
+                transition: background 0.15s, color 0.15s;
+            }
+
+            #news-sidebar .news-item:last-child {
+                border-bottom: none;
+            }
+
+            #news-sidebar .news-item:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: var(--fg);
+            }
+
+            #news-sidebar .news-date {
+                font-size: 0.75rem;
+                color: var(--muted);
+            }
+
+            #news-sidebar .news-title {
+                font-weight: 600;
+                margin-top: 0.1rem;
+            }
+
+            #news-sidebar .sidebar-footer {
+                margin-top: 0.75rem;
+                padding-top: 0.5rem;
+                border-top: 1px solid rgba(255,255,255,0.08);
+                text-align: center;
+            }
+
+            #news-sidebar .sidebar-footer a {
+                color: var(--muted);
+                font-size: 0.8rem;
+                text-decoration: none;
+                border-radius: 6px;
+                padding: 0.25rem 0.5rem;
+                transition: background 0.15s, color 0.15s;
+            }
+
+            #news-sidebar .sidebar-footer a:hover {
+                background: rgba(255, 255, 255, 0.08);
+                color: var(--fg);
+            }
+
+            #news-sidebar .loading {
+                color: var(--muted);
+                font-size: 0.8rem;
+            }
+
+            #news-sidebar .error {
+                color: #da3633;
+                font-size: 0.8rem;
+            }
+
+            @media (max-width: 1100px) {
+                #news-sidebar { display: none; }
+            }
+
             .dot {
                 display: inline-block;
                 width: 10px;
@@ -402,6 +489,12 @@
                 <li class="nav-cta"><a href="./download.html">Download</a></li>
             </ul>
         </nav>
+
+        <aside id="news-sidebar">
+            <h3>Latest News</h3>
+            <div id="news-items"><span class="loading">Loading...</span></div>
+            <div class="sidebar-footer"><a href="https://github.com/redroselinux/news-reader" target="_blank">news-reader CLI →</a></div>
+        </aside>
 
         <header>
             <div class="header-inner">
@@ -561,5 +654,49 @@
                 </div>
             </div>
         </footer>
+        <script>
+            const NEWS_API = "https://api.github.com/repos/redroselinux/news-reader/contents/news";
+            const NEWS_RAW = "https://raw.githubusercontent.com/redroselinux/news-reader/refs/heads/master/news";
+
+            (async function() {
+                const container = document.getElementById("news-items");
+                try {
+                    const r = await fetch(NEWS_API);
+                    if (!r.ok) throw new Error("HTTP " + r.status);
+                    const files = await r.json();
+                    const articles = files
+                        .filter(f => f.name !== "latest" && f.type === "file")
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .slice(0, 5);
+
+                    if (articles.length === 0) {
+                        container.innerHTML = '<span class="error">No news</span>';
+                        return;
+                    }
+
+                    const items = await Promise.all(articles.map(async (f) => {
+                        try {
+                            const text = await (await fetch(f.download_url)).text();
+                            const title = text.startsWith("TITLE: ") ? text.split("\n")[0].slice(7) : f.name;
+                            const url = NEWS_RAW + "/" + encodeURIComponent(f.name);
+                            return `<a href="${url}" target="_blank" class="news-item">
+                                <div class="news-date">${f.name}</div>
+                                <div class="news-title">${title}</div>
+                            </a>`;
+                        } catch {
+                            const url = NEWS_RAW + "/" + encodeURIComponent(f.name);
+                            return `<a href="${url}" target="_blank" class="news-item">
+                                <div class="news-date">${f.name}</div>
+                                <div class="news-title">${f.name}</div>
+                            </a>`;
+                        }
+                    }));
+
+                    container.innerHTML = items.join("");
+                } catch (e) {
+                    container.innerHTML = '<span class="error">Failed to load news</span>';
+                }
+            })();
+        </script>
     </body>
 </html>
