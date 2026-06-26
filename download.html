@@ -14,174 +14,59 @@
             content="Download Redrose Linux - Independent x86_64 systemd-free FOSS distribution"
         />
 
-        <style>
-            :root {
-                --bg: #010101;
-                --fg: #eaeaf0;
-                --muted: lightgray;
-                --accent: #ea645d;
-                --card: #0f0f0f;
-                --border: #ffffff;
-            }
-
-            * {
-                box-sizing: border-box;
-            }
-
-            body {
-                margin: 0;
-                font-family: system-ui, sans-serif;
-                background: var(--bg);
-                color: var(--fg);
-                line-height: 1.6;
-            }
-
-            a {
-                color: var(--accent);
-                text-decoration: none;
-            }
-            a:hover {
-                background-color: var(--border);
-                color: var(--bg);
-            }
-
-            section {
-                padding: 4rem 1.5rem;
-                max-width: 1100px;
-                margin: auto;
-            }
-
-            h1 {
-                font-size: 3.5rem;
-                margin: 0.5rem 0;
-            }
-
-            h2 {
-                font-size: 2rem;
-                margin-bottom: 1rem;
-            }
-
-            p {
-                color: var(--muted);
-                font-size: 1.1rem;
-            }
-
-            .secondary {
-                display: inline-block;
-                margin: 0.4rem;
-                padding: 0.8rem 1.5rem;
-                border: 1px solid var(--border);
-                color: var(--fg);
-                font-weight: 600;
-            }
-
-            code {
-                display: block;
-                background: #000;
-                padding: 1rem;
-                margin: 1.5rem 0;
-                font-family: monospace;
-                border: 1px dashed #444;
-                word-break: break-all;
-            }
-
-            .image-container {
-                text-align: center;
-                margin: 2rem 0;
-            }
-
-            .image-container img {
-                max-width: 100%;
-                height: auto;
-            }
-
-            footer {
-                padding: 3rem 1.5rem;
-                color: var(--muted);
-                font-size: 0.95rem;
-                background-image: linear-gradient(
-                    to bottom,
-                    var(--bg),
-                    var(--card)
-                );
-            }
-
-            .footer-inner {
-                max-width: 1100px;
-                margin: auto;
-                display: grid;
-                grid-template-columns: 1fr auto;
-                gap: 3rem;
-            }
-
-            .footer-links {
-                text-align: right;
-            }
-
-            footer ul {
-                list-style: none;
-                padding: 0;
-            }
-
-            @media (max-width: 700px) {
-                .footer-inner {
-                    grid-template-columns: 1fr;
-                    text-align: center;
-                }
-                .footer-links {
-                    text-align: center;
-                }
-                h1 {
-                    font-size: 2.5rem;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="styles.css" />
     </head>
 
     <body>
-        <section>
-            <img
-                src="https://redroselinux.org/assets/redrose-logo-transparent.png"
-                alt="Redrose Logo"
-                height="44"
-            />
-            <h1>Download</h1>
-            <p>
-                Get the latest alpha builds of Redrose Linux. Choose between the
-                standard ISO or the VM launcher for quick testing.
-            </p>
-            <div style="margin-top: 2rem">
-                <a href="index.html" class="secondary">Back Home</a>
-                <a href="https://docs.redroselinux.org" class="secondary"
-                    >Documentation</a
-                >
-            </div>
-        </section>
+        <nav>
+            <a href="index.html" class="nav-brand">
+                <img src="assets/redrose-logo-transparent.png" alt="Redrose Linux logo" />
+                Redrose Linux
+            </a>
 
-        <section>
-            <h2>VM Launcher</h2>
-            <p>
-                Test Redrose instantly in a virtual machine without touching
-                your disk. Requires Python 3.
-            </p>
-            <code>
-                curl https://redroselinux.org/vm_launcher.sh | sh
-            </code>
-            <div class="image-container">
-                <img src="launcher.png" alt="Launcher Preview" />
-            </div>
-        </section>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
 
-        <section>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#why">Why?</a></li>
+                <li><a href="index.html#waitlist">Waitlist</a></li>
+                <li><a href="https://docs.redroselinux.org">Docs</a></li>
+                <li><a href="https://github.com/redroselinux">GitHub</a></li>
+                <li class="nav-cta"><a href="./download.html">Download</a></li>
+            </ul>
+        </nav>
+
+        <header class="download-header">
+            <div class="header-inner">
+                <div>
+                    <img
+                        src="https://redroselinux.org/assets/redrose-logo-transparent.png"
+                        alt="Redrose Linux logo"
+                        height="44"
+                    />
+                    <h1>Download</h1>
+                    <p>
+                        Get the latest alpha builds of Redrose Linux. Choose between the
+                        standard ISO or the VM launcher for quick testing.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="https://docs.redroselinux.org" class="secondary">Documentation</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="download-iso">
             <h2>Standard ISO</h2>
             <p>
                 Download the latest independent alpha build. Note that hardware
                 installation is currently experimental.
             </p>
-            <div style="margin: 1.5rem 0">
+            <div class="download-buttons">
                 <a
                     href="https://github.com/redroselinux/redroselinux/releases/latest/download/redrose_linux.iso"
-                    class="secondary"
+                    class="primary"
                     >Latest Release (.iso)</a
                 >
                 <a
@@ -195,23 +80,29 @@
             </div>
         </section>
 
-        <section
-            style="
-                text-align: center;
-                background: #080808;
-                border-top: 1px solid var(--border);
-                border-bottom: 1px solid var(--border);
-                max-width: none;
-            "
-        >
-            <div style="max-width: 1100px; margin: auto">
+        <section id="download-vm">
+            <h2>VM Launcher</h2>
+            <p>
+                Test Redrose instantly in a virtual machine without touching
+                your disk. Requires Python 3.
+            </p>
+            <pre><code>curl https://redroselinux.org/vm_launcher.sh | sh</code></pre>
+            <div class="image-container">
+                <img src="launcher.png" alt="Launcher Preview" />
+            </div>
+        </section>
+
+        <section class="download-waitlist">
+            <div class="waitlist-inner">
                 <h2>Stable Waitlist</h2>
                 <p>Sign up to get notified about the first stable release.</p>
-                <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform"
-                    class="secondary"
-                    >Join the Waitlist</a
-                >
+                <div class="cta-buttons">
+                    <a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSdVImUIueQCZPsm21t-Aig_8Kvpx2NxEaPTIxrANsoc9E9dUA/viewform"
+                        class="primary"
+                        >Join the Waitlist</a
+                    >
+                </div>
             </div>
         </section>
 
@@ -236,13 +127,12 @@
                         </li>
                         <li><a href="index.html">Home Page →</a></li>
                         <li>
-                            <a href="https://docs.redroselinux.org"
-                                >Wiki →</a
-                            >
+                            <a href="https://docs.redroselinux.org">Wiki →</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </footer>
+        <script src="script.js"></script>
     </body>
 </html>
