@@ -1,7 +1,8 @@
-This repository is an absolute mess and it is the source code for the Redrose Linux website.
+Redrose Linux website source code.
 
 - index.html - probably what you are looking for
-- download.html - - download page
+- download.html - download page
+- assets/img/ - images
+- assets/styles.css, assets/script.js - styling and behaviour
 - CNAME - [legacy] - keeping the old .is-a.software page up
-- vm_launcher.sh - just running the vm launcher, shortening the urk
-
+- vm_launcher.sh - just running the vm launcher, shortening the url
