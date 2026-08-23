@@ -1,5 +1,22 @@
-- name: generate-sitemap
-  uses: cicirello/generate-sitemap@v1.10.4
-  with:
-    base-url-path: https://redroselinux.org
-    drop-html-extension: true
+name: Update Sitemap
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: generate-sitemap
+        uses: cicirello/generate-sitemap@v1.10.4
+        with:
+          base-url-path: https://redroselinux.org
+          drop-html-extension: true
+      - name: Commit sitemap
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add sitemap.xml
+          git commit -m "chore: update sitemap" || echo "no changes"
+          git push
