@@ -12,9 +12,13 @@ const NEWS_RAW = "https://raw.githubusercontent.com/redroselinux/news-reader/ref
         const r = await fetch(NEWS_API);
         if (!r.ok) throw new Error("HTTP " + r.status);
         const files = await r.json();
+        const parseDate = name => {
+            const m = name.match(/^(\d{4})\((\d{1,2})\.(\d{1,2})\)$/);
+            return m ? +m[1] * 10000 + +m[3] * 100 + +m[2] : -1;
+        };
         const articles = files
             .filter(f => f.name !== "latest" && f.type === "file")
-            .sort((a, b) => a.name.localeCompare(b.name))
+            .sort((a, b) => parseDate(b.name) - parseDate(a.name))
             .slice(0, 5);
 
         if (articles.length === 0) {
